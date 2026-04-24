@@ -1,0 +1,12 @@
+pandas
+numpy
+scikit-learn
+xgboost
+shap
+matplotlib
+seaborn
+streamlit  # Untuk deployment web sederhana
+joblib     # Untuk simpan/load model
+mlflow      # Untuk tracking eksperimen
+tqdm        # Untuk progress bar
+missingno    # Untuk visualisasi missing values

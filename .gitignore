@@ -1,0 +1,18 @@
+# Mengabaikan virtual environment (Sangat Penting!)
+venv/
+env/
+.env
+
+# Mengabaikan dataset yang besar (CSV, SQLite, dll)
+Data/
+*.csv
+*.xlsx
+
+# Mengabaikan folder output/log yang besar
+mlruns/
+outputs/
+models/
+
+# Mengabaikan file sistem
+.DS_Store
+__pycache__/
