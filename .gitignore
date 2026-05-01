@@ -10,7 +10,7 @@ Data/
 
 # Mengabaikan folder output/log yang besar
 mlruns/
-outputs/
+
 
 # Mengabaikan file sistem
 .DS_Store
