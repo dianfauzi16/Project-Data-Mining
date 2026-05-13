@@ -1,0 +1,279 @@
+# ============================================
+# Mental Health Risk Assessment System
+# Configuration File
+# ============================================
+
+# ============================================
+# MODEL CONFIGURATION
+# ============================================
+model:
+  name: "XGBoost ClassifierChain"
+  version: "1.0"
+  model_path: "./models/multilabel_xgboost_classifier_chain.pkl"
+
+  # Hyperparameters
+  hyperparameters:
+    n_estimators: 300
+    max_depth: 3
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.7
+    gamma: 0.2
+    min_child_weight: 1
+    objective: "binary:logistic"
+    eval_metric: "logloss"
+    random_state: 42
+
+# ============================================
+# FEATURE CONFIGURATION
+# ============================================
+features:
+  # Total selected features: 35
+  selected_features:
+    - TIPI1
+    - TIPI2
+    - TIPI3
+    - TIPI4
+    - TIPI5
+    - TIPI6
+    - TIPI7
+    - TIPI8
+    - TIPI9
+    - TIPI10
+    - VCL1
+    - VCL4
+    - VCL5
+    - VCL6
+    - VCL7
+    - VCL8
+    - VCL9
+    - VCL10
+    - VCL12
+    - VCL13
+    - VCL14
+    - VCL15
+    - gender
+    - engnat
+    - age
+    - religion
+    - orientation
+    - race
+    - voted
+    - married
+    - familysize
+
+  # Feature categories
+  personality_traits:
+    - TIPI1
+    - TIPI2
+    - TIPI3
+    - TIPI4
+    - TIPI5
+    - TIPI6
+    - TIPI7
+    - TIPI8
+    - TIPI9
+    - TIPI10
+
+  substance_use:
+    - VCL1
+    - VCL4
+    - VCL5
+    - VCL6
+    - VCL7
+    - VCL8
+    - VCL9
+    - VCL10
+    - VCL12
+    - VCL13
+    - VCL14
+    - VCL15
+
+  demographics:
+    - gender
+    - engnat
+    - age
+    - religion
+    - orientation
+    - race
+    - voted
+    - married
+    - familysize
+
+# ============================================
+# TARGET CONFIGURATION
+# ============================================
+targets:
+  target_columns:
+    - risk_depression
+    - risk_anxiety
+    - risk_stress
+
+  target_labels:
+    risk_depression: "Depression Risk"
+    risk_anxiety: "Anxiety Risk"
+    risk_stress: "Stress Risk"
+
+  target_emojis:
+    risk_depression: "😔"
+    risk_anxiety: "😰"
+    risk_stress: "😣"
+
+# ============================================
+# THRESHOLD CONFIGURATION
+# ============================================
+thresholds:
+  # Optimal thresholds optimized for F1-Score
+  optimal_thresholds:
+    risk_depression: 0.41
+    risk_anxiety: 0.37
+    risk_stress: 0.38
+
+  # Default threshold (used if optimal not specified)
+  default_threshold: 0.5
+
+  # Risk level thresholds
+  risk_levels:
+    low: 0.40
+    medium: 0.70
+
+# ============================================
+# DATA CONFIGURATION
+# ============================================
+data:
+  # Input range constraints
+  age_range:
+    min: 15
+    max: 24
+
+  tipi_range:
+    min: 1
+    max: 7
+    description: "Personality trait rating"
+
+  vcl_range:
+    min: 0
+    max: 6
+    description: "Substance use frequency"
+
+  # Data paths
+  data_paths:
+    raw: "./Data/raw/"
+    processed: "./Data/processed/"
+    split: "./Data/split/"
+    models: "./models/"
+    outputs: "./outputs/"
+
+# ============================================
+# FEATURE SCALING (if needed)
+# ============================================
+preprocessing:
+  # Standardization parameters (from training data)
+  standardize: false # Not applied in current implementation
+
+  # Categorical encoding
+  categorical_features:
+    gender: [1, 2]
+    engnat: [0, 1]
+    religion: [0, 1, 2, 3, 4, 5, 6]
+    orientation: [0, 1, 2]
+    race: [0, 1, 2, 3, 4, 5]
+    voted: [0, 1, 2, 3]
+    married: [0, 1, 2, 3, 4]
+
+# ============================================
+# TRAINING CONFIGURATION (for reference)
+# ============================================
+training:
+  validation_strategy: "5-Fold Cross-Validation"
+  train_test_split: 0.8
+  feature_selection_method: "Moth-Flame Optimization (MFO)"
+  imbalance_handling: "MLSMOTE"
+  total_features_selected: 35
+  feature_reduction_ratio: 0.65
+
+  metrics:
+    f1_score: 0.75
+    hamming_loss: 0.15
+    exact_match_ratio: 0.45
+
+# ============================================
+# STREAMLIT CONFIGURATION
+# ============================================
+streamlit:
+  app_name: "Mental Health Risk Assessment System"
+  app_icon: "🧠"
+  page_layout: "wide"
+
+  # Color scheme
+  theme:
+    primary_color: "#1f77b4"
+    background_color: "#ffffff"
+    secondary_background: "#f0f2f6"
+    text_color: "#262730"
+
+  # UI settings
+  show_sidebar: true
+  sidebar_state: "expanded"
+  upload_max_size: 200 # MB
+
+# ============================================
+# LOGGING CONFIGURATION
+# ============================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/app.log"
+  max_bytes: 10485760 # 10MB
+  backup_count: 5
+
+# ============================================
+# API CONFIGURATION (for future deployment)
+# ============================================
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  workers: 4
+  timeout: 30
+
+# ============================================
+# FEATURE DESCRIPTIONS
+# ============================================
+feature_descriptions:
+  # TIPI Personality Traits
+  TIPI1: "I see myself as extraverted, enthusiastic"
+  TIPI2: "I see myself as critical, quarrelsome"
+  TIPI3: "I see myself as dependable, self-disciplined"
+  TIPI4: "I see myself as anxious, easily upset"
+  TIPI5: "I see myself as open to new experiences, complex"
+  TIPI6: "I see myself as reserved, quiet"
+  TIPI7: "I see myself as sympathetic, warm"
+  TIPI8: "I see myself as disorganized, careless"
+  TIPI9: "I see myself as calm, emotionally stable"
+  TIPI10: "I see myself as conventional, uncreative"
+
+  # VCL Substance Use
+  VCL1: "Alcohol consumption"
+  VCL4: "Cannabis use"
+  VCL5: "Cocaine use"
+  VCL6: "Heroin use"
+  VCL7: "Amphetamine use"
+  VCL8: "Ecstasy use"
+  VCL9: "LSD use"
+  VCL10: "Mushrooms (psilocybin) use"
+  VCL12: "Nicotine use"
+  VCL13: "Methadone use"
+  VCL14: "VSA (volatile substance abuse)"
+  VCL15: "PCP use"
+
+  # Demographics
+  age: "Age in years"
+  gender: "Gender (1=Male, 2=Female)"
+  engnat: "English is native language (0=No, 1=Yes)"
+  religion: "Religious belief"
+  orientation: "Sexual orientation"
+  race: "Race/Ethnicity"
+  voted: "Political voting behavior"
+  married: "Marital status"
+  familysize: "Family size"

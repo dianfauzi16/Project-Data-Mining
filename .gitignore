@@ -10,8 +10,16 @@ Data/
 
 # Mengabaikan folder output/log yang besar
 mlruns/
+outputs/
 
+# Mengabaikan model files yang besar
+models/
+*.pkl
+*.joblib
 
 # Mengabaikan file sistem
 .DS_Store
 __pycache__/
+*.pyc
+.pytest_cache/
+.coverage

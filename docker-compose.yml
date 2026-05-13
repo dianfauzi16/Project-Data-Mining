@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  streamlit-app:
+    build: .
+    container_name: mental-health-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./models:/app/models:ro
+      - ./Data:/app/Data:ro
+      - ./logs:/app/logs
+    environment:
+      - TZ=Asia/Jakarta
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
