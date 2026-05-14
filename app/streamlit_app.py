@@ -209,7 +209,7 @@ def get_risk_explanation(condition, probability):
 # ==========================================
 # 4. MAIN APP LAYOUT
 # ==========================================
-st.markdown('<div class="main-header">🧠 Sistem Penilaian Risiko Kesehatan Mental</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🧠 Periksa Resiko Kesehatan Mental Anda</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Prediksi Risiko Depresi, Kecemasan & Stres Berdasarkan Kepribadian & Gaya Hidup</div>', unsafe_allow_html=True)
 
 # Identify which feature groups are active (dari MFO selection)
@@ -508,10 +508,10 @@ with tab3:
     # Performance Metrics
     st.subheader("🏆 Performa Model")
     perf_cols = st.columns(4)
-    perf_cols[0].metric("Macro F1-Score", "0.7928")
-    perf_cols[1].metric("Micro F1-Score", "0.7927")
-    perf_cols[2].metric("Hamming Loss", "0.2647")
-    perf_cols[3].metric("Exact Match", "0.5655")
+    perf_cols[0].metric("Macro F1-Score", "0.8018")
+    perf_cols[1].metric("Micro F1-Score", "0.8018")
+    perf_cols[2].metric("Hamming Loss", "0.2579")
+    perf_cols[3].metric("Exact Match", "0.5728")
     
     st.divider()
     
@@ -578,9 +578,9 @@ with tab4:
     with st.expander("📈 Seberapa akurat model ini?"):
         st.write(f"""
         Model mencapai performa pada **data uji yang belum pernah dilihat (5.436 sampel)**:
-        - **Macro F1-Score**: 0,7928 (dengan optimasi ambang batas)
-        - **F1 per-label**: Depresi=0,79, Kecemasan=0,79, Stres=0,80
-        - **Rata-rata 5-Fold CV**: 0,7560 ± 0,0068 (stabil)
+        - **Macro F1-Score**: 0,8018 (dengan optimasi ambang batas)
+        - **F1 per-label**: Depresi=0,80, Kecemasan=0,80, Stres=0,80
+        - **Rata-rata 5-Fold CV**: 0,7926 ± 0,0068 (stabil)
         - **Fitur**: {len(config['selected_features'])} fitur dipilih oleh MFO (dari 37 fitur awal)
         
         Namun, model ini **TIDAK** menggantikan penilaian profesional kesehatan mental.
