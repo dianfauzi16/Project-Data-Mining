@@ -142,7 +142,7 @@ export default function TesPage() {
       })
       .catch(err => {
         console.error(err);
-        alert("Gagal memuat konfigurasi form. Pastikan server backend FastAPI (port 8000) sudah berjalan terlebih dahulu.");
+        alert("Gagal memuat konfigurasi tes dari server. Pastikan koneksi internet Anda stabil atau muat ulang halaman.");
       });
   }, []);
 
@@ -186,7 +186,7 @@ export default function TesPage() {
       setResult(data);
     } catch (error) {
       console.error(error);
-      alert("Terjadi kesalahan saat menghubungi server backend. Pastikan server backend FastAPI (port 8000) sudah berjalan.");
+      alert("Terjadi kesalahan saat memproses jawaban Anda. Silakan coba kirim ulang.");
       setCurrentStep(0); // kembali ke awal jika gagal
     } finally {
       setIsSubmitting(false);
