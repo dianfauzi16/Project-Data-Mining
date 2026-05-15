@@ -23,15 +23,10 @@ RUN pip install --upgrade pip && \
 # Copy application code
 COPY . .
 
-# Expose port for Streamlit
-EXPOSE 8501
+# Expose fallback port (Railway akan menimpa ini secara dinamis)
+EXPOSE 8000
 
-# Health check
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
-# Run Streamlit app
-CMD ["streamlit", "run", \
-     "app/streamlit_app.py", \
-     "--server.port=8501", \
-     "--server.address=0.0.0.0", \
-     "--server.headless=true"]
+# Start FastAPI app
+# Menggunakan sh -c agar environment variable $PORT dari Railway bisa terbaca.
+# Jika $PORT tidak ada, ia akan otomatis memakai port 8000.
+CMD sh -c "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
