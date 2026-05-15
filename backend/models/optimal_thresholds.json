@@ -1,0 +1,33 @@
+{
+  "thresholds": {
+    "risk_depression": 0.42,
+    "risk_anxiety": 0.32,
+    "risk_stress": 0.61
+  },
+  "selected_features": [
+    "TIPI1",
+    "TIPI4",
+    "TIPI7",
+    "TIPI8",
+    "TIPI9",
+    "TIPI10",
+    "VCL1",
+    "VCL6",
+    "VCL7",
+    "VCL8",
+    "VCL9",
+    "VCL10",
+    "VCL12",
+    "VCL13",
+    "VCL15",
+    "education",
+    "urban",
+    "gender",
+    "engnat",
+    "age",
+    "orientation",
+    "race",
+    "married",
+    "familysize"
+  ]
+}

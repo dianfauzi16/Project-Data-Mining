@@ -12,10 +12,10 @@ Data/
 mlruns/
 outputs/
 
-# Mengabaikan model files yang besar
-models/
-*.pkl
-*.joblib
+# File model diizinkan untuk diupload karena dibutuhkan oleh Railway
+# models/
+# *.pkl
+# *.joblib
 
 # Mengabaikan file sistem
 .DS_Store
