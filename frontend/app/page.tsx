@@ -23,7 +23,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden flex-grow flex items-center justify-center">
+      <section className="relative pt-12 pb-20 lg:pt-20 lg:pb-24 overflow-hidden flex-grow flex items-center justify-center">
         {/* Background Gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full overflow-hidden -z-10 pointer-events-none">
           <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-indigo-400/20 rounded-full blur-[120px] mix-blend-multiply" />
@@ -42,8 +42,8 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold text-slate-900 tracking-tighter mb-8 leading-[1.1]">
             Kenali Kondisi <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">Mentalmu.</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-            Asesmen mandiri berbasis kecerdasan buatan untuk memprediksi probabilitas risiko depresi, kecemasan, dan stres. Pendekatan berbasis data, bukan sekadar diagnosis kuesioner biasa.
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12  leading-relaxed">
+            Asesmen mandiri berbasis <strong className="text-indigo-600">Artificial Intelligence</strong> untuk memprediksi probabilitas risiko depresi, kecemasan, dan stres. Pendekatan berbasis data, bukan sekadar diagnosis kuesioner biasa.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -51,7 +51,7 @@ export default function Home() {
               href="/tes" 
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-full font-semibold text-base hover:bg-slate-800 hover:scale-105 transition-all duration-300 shadow-xl shadow-slate-900/20"
             >
-              Mulai Evaluasi Sekarang
+              Coba Sekarang
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a 
@@ -102,7 +102,7 @@ export default function Home() {
       </section>
 
       {/* Tests Section (Multi-label focus) */}
-      <section id="metode" className="py-32 bg-[#fafafa]">
+      <section id="metode" className="py-28 bg-[#fafafa]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Apa yang Dievaluasi?</h2>
@@ -249,7 +249,7 @@ export default function Home() {
                 </span>
               </summary>
               <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tidak. NeuralMind.id menggunakan model algoritma untuk menghitung &quot;probabilitas risiko&quot; berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
+                <strong>Tidak</strong>. NeuralMind.id menggunakan model algoritma untuk menghitung &quot;probabilitas risiko&quot; berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
               </div>
             </details>
             
@@ -261,7 +261,7 @@ export default function Home() {
                 </span>
               </summary>
               <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tentu saja. Privasi Anda adalah prioritas kami. Semua data jawaban diproses secara aman di perangkat anda (localstorage) dan tidak disimpan secara permanen di database kami. Anda tidak perlu memasukkan nama atau identitas pribadi.
+                <strong>Tentu saja</strong>. Privasi Anda adalah prioritas kami. Semua data jawaban diproses secara aman di perangkat anda (localstorage), tidak disimpan secara permanen di database kami, dan anda tidak perlu memasukkan identitas pribadi.
               </div>
             </details>
 

@@ -116,7 +116,10 @@ export default function TesPage() {
         const selected = data.selected_features;
         
         // 2. Filter pertanyaan agar hanya menampilkan yang terpilih oleh model
-        const filteredDemo = demografi.filter(q => selected.includes(q.id));
+        const filteredDemo = [
+          { id: "userName", label: "Nama Panggilan (Opsional)", type: "text", defaultValue: "" },
+          ...demografi.filter(q => selected.includes(q.id))
+        ];
         const filteredTipi = tipi.filter(q => selected.includes(q.id));
         const filteredVcl = vcl.filter(q => selected.includes(q.id));
         
@@ -229,8 +232,10 @@ export default function TesPage() {
             <span className="font-medium hidden sm:inline">Kembali</span>
           </Link>
           <div className="flex items-center gap-2 text-[#6C63FF] font-bold">
-            <BrainCircuit className="w-5 h-5" />
-            <span className="hidden sm:inline">Tes NeuralMind.id</span>
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <BrainCircuit className="w-5 h-5 text-white" />
+            </div>
+            <span>NeuralMind.id</span>
           </div>
           <div className="w-16 sm:w-20 text-right text-sm font-medium text-slate-500">
             {!isResultView && `${Math.round(progressPercentage)}%`}
@@ -272,6 +277,14 @@ export default function TesPage() {
                           <option key={opt.val} value={opt.val}>{opt.label}</option>
                         ))}
                       </select>
+                    ) : field.type === "text" ? (
+                      <input 
+                        type="text" 
+                        placeholder="Ketik nama Anda..."
+                        className="w-full p-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#6C63FF]/50 focus:border-[#6C63FF] outline-none transition-all"
+                        value={formData[field.id] || ""}
+                        onChange={(e) => handleInputChange(field.id, e.target.value)}
+                      />
                     ) : (
                       <input 
                         type="number" 
@@ -365,7 +378,7 @@ export default function TesPage() {
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Analisis Selesai</h1>
               <p className="text-slate-600 max-w-lg mx-auto">
-                Berikut adalah hasil prediksi risiko kesehatan mental Anda berdasarkan respons yang diberikan dan fitur yang dipilih oleh sistem.
+                Halo <strong className="text-slate-900">{formData.userName || 'Sobat'}</strong>, berikut adalah hasil prediksi risiko kesehatan mental Anda berdasarkan respons yang diberikan dan algoritma sistem.
               </p>
             </div>
 
@@ -488,7 +501,7 @@ export default function TesPage() {
               className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-white transition-all shadow-sm ${
                 isNextDisabled 
                   ? 'bg-slate-300 cursor-not-allowed' 
-                  : stepInfo?.type === 'vcl' ? 'bg-[#48CAE4] hover:bg-[#3bb5cd] shadow-cyan-500/30' : 'bg-[#6C63FF] hover:bg-[#5a52d5] shadow-indigo-500/30'
+                  : 'bg-[#6C63FF] hover:bg-[#5a52d5] shadow-indigo-500/30'
               }`}
             >
               {currentStep === stepsData.length - 1 ? "Kirim Prediksi" : "Selanjutnya"}

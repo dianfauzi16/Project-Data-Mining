@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pulih.id",
-  description: "Platform Cek Kesehatan Mental Secara Gratis",
+  title: "NeuralMind.id",
+  description: "Platform AI Mental Health Prediction",
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" className="scroll-smooth">
       <body className={`${inter.className} antialiased bg-white text-slate-900`}>
         {children}
       </body>
