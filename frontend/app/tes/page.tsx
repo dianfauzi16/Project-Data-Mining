@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Brain, BrainCircuit, ChevronRight, ChevronLeft, CheckCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, BrainCircuit, ChevronRight, ChevronLeft, CheckCircle, AlertTriangle } from "lucide-react";
 
 // --- Data Pertanyaan Lengkap (Akan di-filter dinamis berdasarkan API) ---
 

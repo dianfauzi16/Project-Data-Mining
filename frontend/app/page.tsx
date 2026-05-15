@@ -249,7 +249,7 @@ export default function Home() {
                 </span>
               </summary>
               <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tidak. NeuralMind.id menggunakan model algoritma untuk menghitung "probabilitas risiko" berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
+                Tidak. NeuralMind.id menggunakan model algoritma untuk menghitung &quot;probabilitas risiko&quot; berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
               </div>
             </details>
             
