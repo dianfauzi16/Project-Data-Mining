@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Brain, ChevronRight, ChevronLeft, CheckCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Brain, BrainCircuit, ChevronRight, ChevronLeft, CheckCircle, AlertTriangle } from "lucide-react";
 
 // --- Data Pertanyaan Lengkap (Akan di-filter dinamis berdasarkan API) ---
 
@@ -229,8 +229,8 @@ export default function TesPage() {
             <span className="font-medium hidden sm:inline">Kembali</span>
           </Link>
           <div className="flex items-center gap-2 text-[#6C63FF] font-bold">
-            <Brain className="w-5 h-5" />
-            <span className="hidden sm:inline">Tes Pulih.id</span>
+            <BrainCircuit className="w-5 h-5" />
+            <span className="hidden sm:inline">Tes NeuralMind.id</span>
           </div>
           <div className="w-16 sm:w-20 text-right text-sm font-medium text-slate-500">
             {!isResultView && `${Math.round(progressPercentage)}%`}
@@ -446,14 +446,20 @@ export default function TesPage() {
               </div>
             </div>
 
-            <div className="mt-10 text-center">
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link 
+                href="/"
+                className="w-full sm:w-auto bg-white border border-slate-200 text-slate-700 px-8 py-3 rounded-xl font-semibold hover:bg-slate-50 transition-colors text-center"
+              >
+                Kembali ke Beranda
+              </Link>
               <button 
                 onClick={() => {
                   setCurrentStep(0);
                   setResult(null);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="bg-slate-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-slate-800 transition-colors"
+                className="w-full sm:w-auto bg-[#6C63FF] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#5a52d5] transition-colors shadow-lg shadow-indigo-500/20"
               >
                 Ulangi Tes
               </button>

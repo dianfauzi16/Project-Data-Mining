@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Brain, Zap, Activity } from "lucide-react";
+import { ArrowRight, ShieldCheck, Brain, Zap, Activity, BrainCircuit } from "lucide-react";
 
 export default function Home() {
   return (
@@ -9,9 +9,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <div className="font-bold text-xl text-slate-900 tracking-tight flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+              <BrainCircuit className="w-5 h-5 text-white" />
             </div>
-            <span>Pulih.id</span>
+            <span>NeuralMind.id</span>
           </div>
           <Link 
             href="/tes" 
@@ -36,14 +36,14 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
             </span>
-            Platform Skrining Kesehatan Mental
+            AI Mental Health Prediction Platform
           </div>
           
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold text-slate-900 tracking-tighter mb-8 leading-[1.1]">
             Kenali Kondisi <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">Mentalmu.</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-            Asesmen mandiri untuk mengenali tingkat depresi, kecemasan, dan stres dalam hidupmu. Cepat, aman, dan sangat mudah digunakan.
+            Asesmen mandiri berbasis kecerdasan buatan untuk memprediksi probabilitas risiko depresi, kecemasan, dan stres. Pendekatan berbasis data, bukan sekadar diagnosis kuesioner biasa.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -107,8 +107,7 @@ export default function Home() {
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Apa yang Dievaluasi?</h2>
             <p className="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
-              Sistem kami mengevaluasi tiga dimensi psikologis utama depresi, kecemasan, dan stres menggunakan instrumen <strong className="text-indigo-600">DASS-42</strong> yang telah tervalidasi secara klinis,
-              memberikan gambaran kondisi kesehatan mental secara lebih menyeluruh, akurat, dan mudah dipahami.
+              Sistem kami menganalisis pola jawaban Anda menggunakan algoritma <strong className="text-indigo-600">Machine Learning</strong> untuk menghitung probabilitas risiko pada tiga dimensi psikologis utama. Ini adalah prediksi probabilitas berbasis data, bukan diagnosis mutlak.
             </p>
           </div>
           
@@ -151,7 +150,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Kenapa Memilih Pulih.id?</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Kenapa Memilih NeuralMind.id?</h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-10">
                 Kami merancang pengalaman tes yang aman, nyaman, dan modern untuk membantu Anda memahami diri sendiri dengan lebih baik.
               </p>
@@ -238,7 +237,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Pertanyaan yang Sering Diajukan</h2>
-            <p className="text-slate-600 text-lg">Temukan jawaban untuk pertanyaan umum seputar tes di Pulih.id</p>
+            <p className="text-slate-600 text-lg">Temukan jawaban untuk pertanyaan umum seputar tes di NeuralMind.id</p>
           </div>
           
           <div className="space-y-4">
@@ -250,7 +249,7 @@ export default function Home() {
                 </span>
               </summary>
               <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tidak. Pulih.id adalah alat skrining mandiri yang bertujuan untuk meningkatkan kesadaran diri (self-awareness). Hasil dari platform ini bukan merupakan diagnosis medis yang pasti dan tidak dapat menggantikan konsultasi langsung dengan psikolog atau psikiater.
+                Tidak. NeuralMind.id menggunakan model algoritma untuk menghitung "probabilitas risiko" berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
               </div>
             </details>
             
@@ -262,7 +261,7 @@ export default function Home() {
                 </span>
               </summary>
               <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tentu saja. Privasi Anda adalah prioritas kami. Semua data jawaban diproses secara aman dan tidak disimpan secara permanen di database kami. Anda tidak perlu memasukkan nama atau identitas pribadi.
+                Tentu saja. Privasi Anda adalah prioritas kami. Semua data jawaban diproses secara aman di perangkat anda (localstorage) dan tidak disimpan secara permanen di database kami. Anda tidak perlu memasukkan nama atau identitas pribadi.
               </div>
             </details>
 
@@ -288,12 +287,12 @@ export default function Home() {
             <div className="lg:col-span-2">
               <div className="font-bold text-2xl text-slate-900 tracking-tight flex items-center gap-2 mb-6">
                 <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
-                  <Brain className="w-6 h-6 text-white" />
+                  <BrainCircuit className="w-6 h-6 text-white" />
                 </div>
-                <span>Pulih.id</span>
+                <span>NeuralMind.id</span>
               </div>
               <p className="text-slate-500 max-w-md leading-relaxed mb-8">
-                Platform skrining kesehatan mental mandiri yang aman dan mudah digunakan untuk membantu Anda memahami kondisi psikologis Anda.
+                Platform AI Mental Health Prediction eksperimental yang aman dan mudah digunakan untuk mengukur probabilitas risiko psikologis Anda melalui pendekatan Machine Learning.
               </p>
               <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 max-w-md text-rose-700 text-sm">
                 <strong className="block mb-1 text-rose-800">Disclaimer Medis</strong>
@@ -322,7 +321,7 @@ export default function Home() {
           </div>
           
           <div className="pt-8 border-t border-slate-100 text-sm text-slate-400 font-medium flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>&copy; {new Date().getFullYear()} Pulih.id. Hak Cipta Dilindungi.</div>
+            <div>&copy; {new Date().getFullYear()} NeuralMind.id. Hak Cipta Dilindungi.</div>
             <div className="flex gap-6">
               <a href="#" className="hover:text-slate-600 transition-colors">Syarat & Ketentuan</a>
               <a href="#" className="hover:text-slate-600 transition-colors">Hubungi Kami</a>

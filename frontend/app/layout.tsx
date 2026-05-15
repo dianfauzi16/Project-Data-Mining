@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Mental Health Check",
-  description: "Cek Kesehatan Mental Kamu Secara Gratis",
+  title: "Pulih.id",
+  description: "Platform Cek Kesehatan Mental Secara Gratis",
 };
 
 export default function RootLayout({
