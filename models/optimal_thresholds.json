@@ -1,0 +1,31 @@
+{
+  "thresholds": {
+    "risk_depression": 0.4,
+    "risk_anxiety": 0.31,
+    "risk_stress": 0.64
+  },
+  "selected_features": [
+    "TIPI1",
+    "TIPI3",
+    "TIPI4",
+    "TIPI8",
+    "TIPI9",
+    "VCL1",
+    "VCL3",
+    "VCL4",
+    "VCL5",
+    "VCL6",
+    "VCL7",
+    "VCL8",
+    "VCL10",
+    "VCL11",
+    "VCL12",
+    "VCL14",
+    "VCL16",
+    "urban",
+    "age",
+    "religion",
+    "orientation",
+    "voted"
+  ]
+}

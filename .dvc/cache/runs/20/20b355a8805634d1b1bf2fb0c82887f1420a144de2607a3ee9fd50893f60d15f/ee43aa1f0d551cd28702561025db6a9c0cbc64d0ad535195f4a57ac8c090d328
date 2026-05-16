@@ -1,0 +1,17 @@
+cmd: python src/04_train_test_split.py
+deps:
+- path: Data/processed
+  hash: md5
+  md5: f514fb58e10c164abc261795c0b8e17c.dir
+  size: 2273863
+  nfiles: 1
+- path: src/04_train_test_split.py
+  hash: md5
+  md5: 71355d8e725e618f696120610c722c5a
+  size: 3143
+outs:
+- path: Data/split
+  hash: md5
+  md5: 757bd87202795d567fe7db46e106bf70.dir
+  size: 2274138
+  nfiles: 2

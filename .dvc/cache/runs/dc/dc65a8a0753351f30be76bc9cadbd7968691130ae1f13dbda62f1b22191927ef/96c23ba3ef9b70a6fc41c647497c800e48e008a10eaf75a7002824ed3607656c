@@ -1,0 +1,19 @@
+cmd: python src/04_train_test_split.py
+deps:
+- path: Data/processed/cleaned_data.csv
+  hash: md5
+  md5: 270078cc348df8a15c406aaeda5d8918
+  size: 2273863
+- path: src/04_train_test_split.py
+  hash: md5
+  md5: 71355d8e725e618f696120610c722c5a
+  size: 3143
+outs:
+- path: Data/split/test_data.csv
+  hash: md5
+  md5: 7605a2ee20ac48a63e0ec02ed7932edf
+  size: 455038
+- path: Data/split/train_data.csv
+  hash: md5
+  md5: e3cb49ad7e6c57b795187a1a149fea09
+  size: 1819100

@@ -1,0 +1,15 @@
+cmd: python src/05_multilabel_imbalance_handling.py
+deps:
+- path: Data/split/train_data.csv
+  hash: md5
+  md5: e3cb49ad7e6c57b795187a1a149fea09
+  size: 1819100
+- path: src/05_multilabel_imbalance_handling.py
+  hash: md5
+  md5: 10b1d56ac1a476a2748f8852d7a59551
+  size: 35452
+outs:
+- path: Data/processed/train_balanced_multilabel.csv
+  hash: md5
+  md5: f2ef66357b6ab2043a9426620efe3c0a
+  size: 1481766

@@ -1,0 +1,27 @@
+cmd: python src/11_final_model.py
+deps:
+- path: Data/processed/train_selected_features.csv
+  hash: md5
+  md5: 70ded12ea9321955b171cafef1f2b339
+  size: 901403
+- path: Data/split/test_data.csv
+  hash: md5
+  md5: 7605a2ee20ac48a63e0ec02ed7932edf
+  size: 455038
+- path: models/best_xgb_params.json
+  hash: md5
+  md5: 426946c0610e802ebb72d639ff5395a0
+  size: 241
+- path: src/11_final_model.py
+  hash: md5
+  md5: 9350b8c889f8a0d520d237409659e7c4
+  size: 16830
+outs:
+- path: models/multilabel_xgboost_classifier_chain.pkl
+  hash: md5
+  md5: bf68cba9fe53381db4b7b40ef436f6c0
+  size: 358018
+- path: models/optimal_thresholds.json
+  hash: md5
+  md5: b21f5293db4fde14c164e99572d22fc2
+  size: 448

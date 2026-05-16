@@ -1,0 +1,15 @@
+cmd: python src/07_hyperparameter_tunning.py
+deps:
+- path: Data/processed/train_selected_features.csv
+  hash: md5
+  md5: 70ded12ea9321955b171cafef1f2b339
+  size: 901403
+- path: src/07_hyperparameter_tunning.py
+  hash: md5
+  md5: 79eaf037a5b88e314af5c07164877c61
+  size: 7763
+outs:
+- path: models/best_xgb_params.json
+  hash: md5
+  md5: 426946c0610e802ebb72d639ff5395a0
+  size: 241

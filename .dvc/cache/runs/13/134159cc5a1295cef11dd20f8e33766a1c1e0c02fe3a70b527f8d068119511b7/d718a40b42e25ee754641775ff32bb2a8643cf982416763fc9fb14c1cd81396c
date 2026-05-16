@@ -1,0 +1,15 @@
+cmd: python src/06_mfo_feature_selection.py
+deps:
+- path: Data/processed/train_balanced_multilabel.csv
+  hash: md5
+  md5: f2ef66357b6ab2043a9426620efe3c0a
+  size: 1481766
+- path: src/06_mfo_feature_selection.py
+  hash: md5
+  md5: 5e78b2770a1d8ce076103e91b7ba8d73
+  size: 11886
+outs:
+- path: Data/processed/train_selected_features.csv
+  hash: md5
+  md5: 70ded12ea9321955b171cafef1f2b339
+  size: 901403
