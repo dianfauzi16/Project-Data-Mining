@@ -1,0 +1,5 @@
+Optimal Thresholds per Label:
+----------------------------------------
+risk_depression: 0.4000
+risk_anxiety: 0.3100
+risk_stress: 0.6400

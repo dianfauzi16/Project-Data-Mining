@@ -20,7 +20,7 @@ warnings.filterwarnings('ignore')
 # ==========================================
 # 1. SETUP PATH & LOAD DATA
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env

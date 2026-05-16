@@ -17,7 +17,7 @@ import json
 # ==========================================
 
 
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 print("⏳ 1. Memuat Data Latih untuk Cross Validation...")
 
 # ✅ Load parameter hasil tuning (bukan hardcode)

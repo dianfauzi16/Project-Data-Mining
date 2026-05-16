@@ -19,7 +19,7 @@ import mlflow
 # ==========================================
 # 0. MLFLOW SETUP
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -31,7 +31,7 @@ mlflow.set_experiment("07d_Baseline_Benchmarking")
 # ==========================================
 # 1. SETUP & LOAD DATA
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 print("🔍 1. Memuat Data untuk Benchmarking...")
 
 train_df = pd.read_csv(root_path / "Data/processed/train_selected_features.csv")

@@ -31,7 +31,7 @@ warnings.filterwarnings('ignore')
 # ==========================================
 # SETUP
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 
 # Load data
 train_df = pd.read_csv(root_path / "Data/processed/train_selected_features.csv")

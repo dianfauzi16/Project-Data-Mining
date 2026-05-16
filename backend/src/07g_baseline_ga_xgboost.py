@@ -18,7 +18,7 @@ import mlflow
 # ==========================================
 # 0. MLFLOW SETUP
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env

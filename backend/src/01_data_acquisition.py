@@ -9,7 +9,7 @@ import mlflow
 from IPython.display import display, Markdown
 from pathlib import Path
 # 1. SETUP PATH & MLFLOW
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 # Menentukan lokasi penyimpanan log mlflow
 import os
 from dotenv import load_dotenv

@@ -103,6 +103,10 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
+from pathlib import Path
+
+root_path = Path.cwd()
+(root_path / "outputs" / "imbalance_figures").mkdir(parents=True, exist_ok=True)
 
 fig, axes = plt.subplots(1, 3, figsize=(18, 8))
 fig.suptitle('Alur Data Melalui Pipeline MLSMOTE: Mengapa Total Berubah?', 
@@ -245,7 +249,7 @@ warnings.filterwarnings('ignore')
 # ==========================================
 # 1. SETUP PATH & MLFLOW
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path.cwd()
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
