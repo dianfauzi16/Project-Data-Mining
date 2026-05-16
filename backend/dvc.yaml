@@ -1,52 +1,52 @@
 stages:
   data_acquisition:
-    cmd: jupyter nbconvert --execute --inplace notebooks/01_data_acquisition.ipynb
+    cmd: python src/01_data_acquisition.py
     deps:
-      - notebooks/01_data_acquisition.ipynb
+      - src/01_data_acquisition.py
     outs:
       - Data/raw
 
   exploratory_data_analysis:
-    cmd: jupyter nbconvert --execute --inplace notebooks/02_exploratory_data_analysis.ipynb
+    cmd: python src/02_exploratory_data_analysis.py
     deps:
       - Data/raw
-      - notebooks/02_exploratory_data_analysis.ipynb
+      - src/02_exploratory_data_analysis.py
 
   preprocessing:
-    cmd: jupyter nbconvert --execute --inplace notebooks/03_data_preprocessing.ipynb
+    cmd: python src/03_data_preprocessing.py
     deps:
       - Data/raw
-      - notebooks/03_data_preprocessing.ipynb
+      - src/03_data_preprocessing.py
     outs:
       - Data/processed
 
   train_test_split:
-    cmd: jupyter nbconvert --execute --inplace notebooks/04_train_test_split.ipynb
+    cmd: python src/04_train_test_split.py
     deps:
       - Data/processed
-      - notebooks/04_train_test_split.ipynb
+      - src/04_train_test_split.py
     outs:
       - Data/split
 
   imbalance_handling:
-    cmd: jupyter nbconvert --execute --inplace notebooks/05_multilabel_imbalance_handling.ipynb
+    cmd: python src/05_multilabel_imbalance_handling.py
     deps:
       - Data/split
-      - notebooks/05_multilabel_imbalance_handling.ipynb
+      - src/05_multilabel_imbalance_handling.py
 
   final_model_training:
-    cmd: jupyter nbconvert --execute --inplace notebooks/11_final_model.ipynb
+    cmd: python src/11_final_model.py
     deps:
       - Data/split
-      - notebooks/05_multilabel_imbalance_handling.ipynb
-      - notebooks/11_final_model.ipynb
+      - src/05_multilabel_imbalance_handling.py
+      - src/11_final_model.py
     outs:
       - models/multilabel_xgboost_classifier_chain.pkl
       - models/best_xgb_params.json
       - models/optimal_thresholds.json
 
   shap_explainability:
-    cmd: jupyter nbconvert --execute --inplace notebooks/10_shap_explainability.ipynb
+    cmd: python src/10_shap_explainability.py
     deps:
       - models/multilabel_xgboost_classifier_chain.pkl
-      - notebooks/10_shap_explainability.ipynb
+      - src/10_shap_explainability.py
