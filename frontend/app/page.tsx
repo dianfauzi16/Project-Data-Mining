@@ -1,231 +1,265 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Brain, Zap, Activity, BrainCircuit } from "lucide-react";
+import { ArrowRight, ShieldCheck, Brain, HeartPulse, BookOpen, BrainCircuit, Users, ChevronDown } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-[#fafafa] selection:bg-indigo-500/30">
+    <div className="min-h-screen flex flex-col bg-white selection:bg-teal-600/20">
       {/* Header */}
-      <header className="sticky top-0 w-full z-50 bg-white/70 backdrop-blur-lg border-b border-slate-200/50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-          <div className="font-bold text-xl text-slate-900 tracking-tight flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <BrainCircuit className="w-5 h-5 text-white" />
+      <header className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-stone-200/60">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+          <div className="font-semibold text-lg text-stone-800 tracking-tight flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center">
+              <BrainCircuit className="w-4.5 h-4.5 text-white" />
             </div>
-            <span>NeuralMind.id</span>
+            <span>NeuralMind<span className="text-teal-700">.id</span></span>
           </div>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-stone-500">
+            <a href="#tentang" className="hover:text-stone-800 transition-colors">Tentang</a>
+            <a href="#cara-kerja" className="hover:text-stone-800 transition-colors">Cara Kerja</a>
+            <a href="#faq" className="hover:text-stone-800 transition-colors">FAQ</a>
+          </nav>
           <Link 
             href="/tes" 
-            className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full font-medium transition-all text-sm shadow-sm hover:shadow-md"
+            className="bg-teal-700 hover:bg-teal-800 text-white px-5 py-2 rounded-lg font-medium transition-colors text-sm"
           >
             Mulai Tes
           </Link>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative pt-12 pb-20 lg:pt-20 lg:pb-24 overflow-hidden flex-grow flex items-center justify-center">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full overflow-hidden -z-10 pointer-events-none">
-          <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-indigo-400/20 rounded-full blur-[120px] mix-blend-multiply" />
-          <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-cyan-400/20 rounded-full blur-[100px] mix-blend-multiply" />
-        </div>
-        
-        <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-sm font-medium mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-            </span>
-            AI Mental Health Prediction Platform
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold text-slate-900 tracking-tighter mb-8 leading-[1.1]">
-            Kenali Kondisi <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">Mentalmu.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12  leading-relaxed">
-            Asesmen mandiri berbasis <strong className="text-indigo-600">Artificial Intelligence</strong> untuk memprediksi probabilitas risiko depresi, kecemasan, dan stres. Pendekatan berbasis data, bukan sekadar diagnosis kuesioner biasa.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link 
-              href="/tes" 
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-full font-semibold text-base hover:bg-slate-800 hover:scale-105 transition-all duration-300 shadow-xl shadow-slate-900/20"
-            >
-              Coba Sekarang
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <a 
-              href="#metode" 
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-slate-700 px-8 py-4 rounded-full font-semibold text-base border border-slate-200 hover:bg-slate-50 transition-all duration-300"
-            >
-              Pelajari Lebih Lanjut
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section — asymmetric, spacious, calm */}
+      <section className="pt-20 pb-24 lg:pt-28 lg:pb-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left — Text content */}
+            <div className="lg:col-span-7">
+              <p className="text-teal-700 font-medium text-sm tracking-wide mb-6">
+                Platform Deteksi Dini Kesehatan Mental Remaja
+              </p>
+              <h1 className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold text-stone-900 tracking-tight leading-[1.15] mb-6">
+                Membantu memahami
+                <br />
+                kondisi psikologis
+                <br />
+                <span className="text-teal-700">secara lebih awal.</span>
+              </h1>
+              <p className="text-stone-500 text-lg leading-relaxed max-w-xl mb-10">
+                Asesmen mandiri berbasis machine learning untuk memprediksi 
+                probabilitas risiko depresi, kecemasan, dan stres pada remaja 
+                melalui analisis faktor psikososial.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <Link 
+                  href="/tes" 
+                  className="inline-flex items-center gap-2.5 bg-teal-700 text-white px-7 py-3.5 rounded-xl font-semibold text-base hover:bg-teal-800 transition-colors"
+                >
+                  Mulai Asesmen
+                  <ArrowRight className="w-4.5 h-4.5" />
+                </Link>
+                <a 
+                  href="#tentang" 
+                  className="inline-flex items-center gap-2 text-stone-500 px-4 py-3.5 font-medium text-base hover:text-stone-700 transition-colors"
+                >
+                  Pelajari lebih lanjut
+                  <ChevronDown className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
 
-      {/* Stats / Trust Section */}
-      <section className="border-y border-slate-200/60 bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-24">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-                <Activity className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900">Holistik</div>
-                <div className="text-sm text-slate-500 font-medium">Evaluasi Menyeluruh</div>
-              </div>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-slate-200"></div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900">Aman</div>
-                <div className="text-sm text-slate-500 font-medium">Privasi Terjamin</div>
-              </div>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-slate-200"></div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900">Cepat</div>
-                <div className="text-sm text-slate-500 font-medium">Hasil Seketika</div>
+            {/* Right — Calm visual card */}
+            <div className="lg:col-span-5">
+              <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-7 space-y-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-teal-500"></div>
+                  <span className="text-sm font-medium text-stone-400 tracking-wide">Tiga dimensi yang diukur</span>
+                </div>
+                
+                {[
+                  { emoji: "😔", label: "Depresi", desc: "Keputusasaan, hilangnya minat, dan motivasi", color: "bg-indigo-50 text-indigo-700 border-indigo-100" },
+                  { emoji: "😰", label: "Kecemasan", desc: "Kekhawatiran berlebih dan respons panik", color: "bg-amber-50 text-amber-700 border-amber-100" },
+                  { emoji: "😣", label: "Stres", desc: "Kesulitan rileks, agitasi, dan reaktivitas tinggi", color: "bg-rose-50 text-rose-700 border-rose-100" },
+                ].map((item) => (
+                  <div key={item.label} className={`flex items-center gap-4 p-4 rounded-xl border ${item.color}`}>
+                    <span className="text-2xl flex-shrink-0">{item.emoji}</span>
+                    <div>
+                      <div className="font-semibold text-stone-800 text-sm">{item.label}</div>
+                      <div className="text-stone-500 text-sm">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Tests Section (Multi-label focus) */}
-      <section id="metode" className="py-28 bg-[#fafafa]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Apa yang Dievaluasi?</h2>
-            <p className="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
-              Sistem kami menganalisis pola jawaban Anda menggunakan algoritma <strong className="text-indigo-600">Machine Learning</strong> untuk menghitung probabilitas risiko pada tiga dimensi psikologis utama. Ini adalah prediksi probabilitas berbasis data, bukan diagnosis mutlak.
+      {/* Trust bar — minimal, quiet */}
+      <div className="border-y border-stone-100">
+        <div className="max-w-6xl mx-auto px-6 py-6">
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-sm text-stone-400 font-medium">
+            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-teal-600" /> Anonim & aman</span>
+            <span className="flex items-center gap-2"><HeartPulse className="w-4 h-4 text-teal-600" /> Berbasis riset psikologi</span>
+            <span className="flex items-center gap-2"><Brain className="w-4 h-4 text-teal-600" /> Machine learning</span>
+            <span className="flex items-center gap-2"><Users className="w-4 h-4 text-teal-600" /> Untuk remaja 15–24 tahun</span>
+          </div>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <section id="tentang" className="py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-16 items-start">
+            <div className="lg:col-span-5">
+              <p className="text-teal-700 font-medium text-sm tracking-wide mb-4">Tentang Sistem</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-tight mb-6">
+                Deteksi dini berbasis
+                <br />faktor psikososial.
+              </h2>
+              <p className="text-stone-500 leading-relaxed">
+                Sistem ini dirancang untuk membantu remaja Indonesia memahami 
+                kondisi kesehatan mentalnya secara dini. Bukan diagnosis klinis — 
+                melainkan alat bantu kesadaran diri yang transparan dan mudah diakses.
+              </p>
+            </div>
+
+            <div className="lg:col-span-7 space-y-6">
+              {[
+                { 
+                  icon: Brain, 
+                  title: "Analisis Kepribadian", 
+                  desc: "Menggunakan instrumen TIPI (Ten-Item Personality Inventory) untuk memahami pola kepribadian Big Five yang berkorelasi dengan kondisi psikologis." 
+                },
+                { 
+                  icon: Users, 
+                  title: "Faktor Demografis", 
+                  desc: "Mempertimbangkan konteks sosial seperti usia, pendidikan, wilayah tempat tinggal, dan ukuran keluarga sebagai prediktor tambahan." 
+                },
+                { 
+                  icon: BookOpen, 
+                  title: "Prediksi Multi-label", 
+                  desc: "Memprediksi tiga kondisi sekaligus (depresi, kecemasan, stres) secara simultan menggunakan Classifier Chain — karena kondisi psikologis sering saling terkait." 
+                },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-5">
+                  <div className="flex-shrink-0 w-10 h-10 bg-stone-100 rounded-lg flex items-center justify-center text-stone-600">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-stone-800 mb-1.5">{item.title}</h3>
+                    <p className="text-stone-500 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works — clean steps */}
+      <section id="cara-kerja" className="py-24 lg:py-32 bg-stone-50 border-y border-stone-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-2xl mb-16">
+            <p className="text-teal-700 font-medium text-sm tracking-wide mb-4">Cara Kerja</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-tight mb-5">
+              Proses asesmen yang sederhana dan transparan.
+            </h2>
+            <p className="text-stone-500 leading-relaxed">
+              Anda hanya perlu menjawab beberapa pertanyaan singkat. Sistem akan menganalisis 
+              pola jawaban menggunakan model machine learning yang sudah divalidasi.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Depresi Card */}
-            <div className="group bg-white p-8 rounded-[2rem] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-bl-[100px] -z-10 transition-all duration-500 group-hover:bg-indigo-100/50"></div>
-              <div className="w-16 h-16 bg-white border border-slate-100 shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8">😔</div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Depresi</h3>
-              <p className="text-slate-600 leading-relaxed min-h-[100px]">
-                Mengukur tingkat keputusasaan, devaluasi kehidupan, kurangnya minat, serta kurangnya motivasi dalam aktivitas sehari-hari.
-              </p>
-            </div>
-
-            {/* Kecemasan Card */}
-            <div className="group bg-white p-8 rounded-[2rem] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-50 rounded-bl-[100px] -z-10 transition-all duration-500 group-hover:bg-cyan-100/50"></div>
-              <div className="w-16 h-16 bg-white border border-slate-100 shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8">😰</div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Kecemasan</h3>
-              <p className="text-slate-600 leading-relaxed min-h-[100px]">
-                Mengevaluasi respons otonomik, efek otot skeletal, kecemasan situasional, dan pengalaman subjektif terkait kepanikan berlebih.
-              </p>
-            </div>
-
-            {/* Stres Card */}
-            <div className="group bg-white p-8 rounded-[2rem] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-bl-[100px] -z-10 transition-all duration-500 group-hover:bg-rose-100/50"></div>
-              <div className="w-16 h-16 bg-white border border-slate-100 shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8">😣</div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Stres</h3>
-              <p className="text-slate-600 leading-relaxed min-h-[100px]">
-                Menilai tingkat kesulitan rileks, gairah saraf, mudah marah, agitasi, ketidaksabaran, dan reaktivitas berlebihan terhadap situasi.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            {[
+              { 
+                step: "01", 
+                title: "Isi Data Diri",
+                desc: "Lengkapi informasi demografis dasar seperti usia, pendidikan, dan wilayah tempat tinggal."
+              },
+              { 
+                step: "02", 
+                title: "Jawab Pertanyaan",
+                desc: "Respons beberapa pernyataan kepribadian yang telah dipilih secara otomatis oleh algoritma seleksi fitur."
+              },
+              { 
+                step: "03", 
+                title: "Lihat Hasil",
+                desc: "Dapatkan probabilitas risiko untuk depresi, kecemasan, dan stres beserta penjelasan dan rekomendasi."
+              },
+            ].map((item) => (
+              <div key={item.step}>
+                <div className="text-4xl font-bold text-stone-200 mb-4">{item.step}</div>
+                <h3 className="font-semibold text-stone-800 text-lg mb-2">{item.title}</h3>
+                <p className="text-stone-500 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-32 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Kenapa Memilih NeuralMind.id?</h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-10">
-                Kami merancang pengalaman tes yang aman, nyaman, dan modern untuk membantu Anda memahami diri sendiri dengan lebih baik.
+      {/* ML Transparency section */}
+      <section className="py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <p className="text-teal-700 font-medium text-sm tracking-wide mb-4">Transparansi Model</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-tight mb-5">
+              Bagaimana sistem membuat prediksi?
+            </h2>
+            <p className="text-stone-500 leading-relaxed">
+              Kami percaya bahwa teknologi kesehatan mental harus transparan. 
+              Berikut adalah gambaran singkat tentang cara kerja model di balik sistem ini.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-6">
+              <h3 className="font-semibold text-stone-800 mb-3">Algoritma</h3>
+              <p className="text-stone-500 text-sm leading-relaxed mb-4">
+                Menggunakan XGBoost dengan arsitektur Classifier Chain 
+                untuk memprediksi tiga kondisi secara bersamaan dengan mempertimbangkan korelasi antar label.
               </p>
-              
-              <div className="space-y-8">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-700">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Privasi Penuh</h4>
-                    <p className="text-slate-600">Semua hasil tes diproses secara aman dan tidak disimpan di database manapun. Tes ini sepenuhnya anonim.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-700">
-                    <Brain className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Analisis Pintar</h4>
-                    <p className="text-slate-600">Menganalisis pola gaya hidup, kepribadian, dan demografi Anda untuk memberikan hasil yang relevan.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-700">
-                    <Zap className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Hasil Interaktif</h4>
-                    <p className="text-slate-600">Dapatkan persentase tingkat risiko secara instan dalam antarmuka visual yang mudah dipahami.</p>
-                  </div>
-                </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">XGBoost</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">Classifier Chain</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">Multi-label</span>
               </div>
             </div>
-            
-            <div className="relative mt-10 lg:mt-0">
-              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-cyan-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-              <div className="bg-white border border-slate-200/60 p-8 rounded-[3rem] shadow-2xl shadow-slate-200/50">
-                <div className="space-y-6">
-                  {/* Mockup UI Elements */}
-                  <div className="h-4 w-32 bg-slate-100 rounded-full mb-8"></div>
-                  
-                  <div className="p-5 border border-slate-100 rounded-2xl flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="text-2xl">😔</div>
-                      <div>
-                        <div className="font-bold text-slate-900">Risiko Depresi</div>
-                        <div className="text-sm text-slate-500">Probabilitas</div>
-                      </div>
-                    </div>
-                    <div className="text-xl font-extrabold text-indigo-600">Low</div>
-                  </div>
 
-                  <div className="p-5 border border-slate-100 rounded-2xl flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="text-2xl">😰</div>
-                      <div>
-                        <div className="font-bold text-slate-900">Risiko Kecemasan</div>
-                        <div className="text-sm text-slate-500">Probabilitas</div>
-                      </div>
-                    </div>
-                    <div className="text-xl font-extrabold text-cyan-600">Med</div>
-                  </div>
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-6">
+              <h3 className="font-semibold text-stone-800 mb-3">Seleksi Fitur</h3>
+              <p className="text-stone-500 text-sm leading-relaxed mb-4">
+                Moth-Flame Optimization (MFO) secara otomatis memilih fitur yang paling relevan 
+                dari data kepribadian dan demografis untuk meningkatkan akurasi prediksi.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">MFO</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">Feature Selection</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">Otomatis</span>
+              </div>
+            </div>
 
-                  <div className="p-5 border border-slate-100 rounded-2xl flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="text-2xl">😣</div>
-                      <div>
-                        <div className="font-bold text-slate-900">Risiko Stres</div>
-                        <div className="text-sm text-slate-500">Probabilitas</div>
-                      </div>
-                    </div>
-                    <div className="text-xl font-extrabold text-rose-500">High</div>
-                  </div>
-                </div>
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-6">
+              <h3 className="font-semibold text-stone-800 mb-3">Data Training</h3>
+              <p className="text-stone-500 text-sm leading-relaxed mb-4">
+                Model dilatih menggunakan dataset berskala besar dari survei psikologis internasional  
+                dengan teknik penanganan ketidakseimbangan data (SMOTE) untuk prediksi yang lebih adil.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">27.000+ responden</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">SMOTE</span>
+              </div>
+            </div>
+
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-6">
+              <h3 className="font-semibold text-stone-800 mb-3">Validasi</h3>
+              <p className="text-stone-500 text-sm leading-relaxed mb-4">
+                Performa model dievaluasi dengan cross-validation, threshold optimization, 
+                dan multiple benchmarking terhadap algoritma seleksi fitur lainnya.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">Cross-Validation</span>
+                <span className="px-3 py-1 bg-white border border-stone-200 rounded-md text-xs font-medium text-stone-600">ROC-AUC ~0.80</span>
               </div>
             </div>
           </div>
@@ -233,99 +267,116 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Pertanyaan yang Sering Diajukan</h2>
-            <p className="text-slate-600 text-lg">Temukan jawaban untuk pertanyaan umum seputar tes di NeuralMind.id</p>
+      <section id="faq" className="py-24 lg:py-32 bg-stone-50 border-y border-stone-100">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="mb-14">
+            <p className="text-teal-700 font-medium text-sm tracking-wide mb-4">FAQ</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-tight">
+              Pertanyaan yang sering diajukan.
+            </h2>
           </div>
           
-          <div className="space-y-4">
-            <details className="group bg-white rounded-2xl border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex items-center justify-between p-6 cursor-pointer font-semibold text-slate-900">
-                Apakah hasil tes ini bisa dijadikan diagnosis medis?
-                <span className="transition duration-300 group-open:-rotate-180">
-                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                </span>
-              </summary>
-              <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                <strong>Tidak</strong>. NeuralMind.id menggunakan model algoritma untuk menghitung &quot;probabilitas risiko&quot; berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini murni bertujuan untuk meningkatkan kesadaran diri (self-awareness) dan sama sekali tidak dapat menggantikan peran atau diagnosis resmi dari psikolog maupun psikiater.
-              </div>
-            </details>
-            
-            <details className="group bg-white rounded-2xl border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex items-center justify-between p-6 cursor-pointer font-semibold text-slate-900">
-                Apakah data jawaban saya aman?
-                <span className="transition duration-300 group-open:-rotate-180">
-                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                </span>
-              </summary>
-              <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                <strong>Tentu saja</strong>. Privasi Anda adalah prioritas kami. Semua data jawaban diproses secara aman di perangkat anda (localstorage), tidak disimpan secara permanen di database kami, dan anda tidak perlu memasukkan identitas pribadi.
-              </div>
-            </details>
-
-            <details className="group bg-white rounded-2xl border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex items-center justify-between p-6 cursor-pointer font-semibold text-slate-900">
-                Berapa lama waktu yang dibutuhkan untuk tes?
-                <span className="transition duration-300 group-open:-rotate-180">
-                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                </span>
-              </summary>
-              <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                Tes ini sangat praktis dan biasanya hanya memakan waktu sekitar 3 hingga 5 menit. Kami menyarankan Anda untuk menjawab setiap pertanyaan secara jujur agar hasil yang didapatkan lebih relevan.
-              </div>
-            </details>
+          <div className="space-y-3">
+            {[
+              {
+                q: "Apakah hasil tes ini bisa dijadikan diagnosis medis?",
+                a: "Tidak. NeuralMind.id menghitung probabilitas risiko berdasarkan pola data, bukan mendiagnosis secara medis. Prediksi ini bertujuan meningkatkan kesadaran diri (self-awareness) dan tidak dapat menggantikan diagnosis resmi dari psikolog maupun psikiater."
+              },
+              {
+                q: "Apakah data jawaban saya aman?",
+                a: "Privasi Anda adalah prioritas utama. Semua data jawaban diproses langsung dan tidak disimpan secara permanen. Anda tidak perlu memasukkan identitas pribadi, dan seluruh proses berjalan secara anonim."
+              },
+              {
+                q: "Berapa lama waktu yang dibutuhkan?",
+                a: "Asesmen ini dirancang untuk diselesaikan dalam 3–5 menit. Kami menyarankan Anda menjawab setiap pertanyaan secara jujur agar hasil prediksi lebih relevan dengan kondisi Anda."
+              },
+              {
+                q: "Siapa yang sebaiknya menggunakan tes ini?",
+                a: "Sistem ini dirancang untuk remaja dan dewasa muda usia 15–24 tahun. Model prediksi telah dilatih dan divalidasi menggunakan data dari rentang usia tersebut."
+              },
+            ].map((item, i) => (
+              <details key={i} className="group bg-white rounded-xl border border-stone-200/80 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-center justify-between p-5 cursor-pointer font-medium text-stone-800 text-sm">
+                  {item.q}
+                  <ChevronDown className="w-4 h-4 text-stone-400 transition-transform duration-200 group-open:rotate-180 flex-shrink-0 ml-4" />
+                </summary>
+                <div className="px-5 pb-5 text-stone-500 text-sm leading-relaxed -mt-1">
+                  {item.a}
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-16 mt-auto">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            <div className="lg:col-span-2">
-              <div className="font-bold text-2xl text-slate-900 tracking-tight flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
-                  <BrainCircuit className="w-6 h-6 text-white" />
+      {/* CTA — quiet, respectful */}
+      <section className="py-24 lg:py-28">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-tight mb-5">
+            Mulai pahami kondisi
+            <br />kesehatan mentalmu.
+          </h2>
+          <p className="text-stone-500 leading-relaxed mb-10 max-w-lg mx-auto">
+            Asesmen singkat ini hanya membutuhkan beberapa menit. 
+            Semua data diproses secara anonim dan tidak disimpan.
+          </p>
+          <Link 
+            href="/tes" 
+            className="inline-flex items-center gap-2.5 bg-teal-700 text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-teal-800 transition-colors"
+          >
+            Mulai Asesmen Sekarang
+            <ArrowRight className="w-4.5 h-4.5" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer — clean, minimal */}
+      <footer className="border-t border-stone-200 py-12 mt-auto">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
+            <div>
+              <div className="font-semibold text-lg text-stone-800 tracking-tight flex items-center gap-2.5 mb-5">
+                <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center">
+                  <BrainCircuit className="w-4.5 h-4.5 text-white" />
                 </div>
-                <span>NeuralMind.id</span>
+                <span>NeuralMind<span className="text-teal-700">.id</span></span>
               </div>
-              <p className="text-slate-500 max-w-md leading-relaxed mb-8">
-                Platform AI Mental Health Prediction eksperimental yang aman dan mudah digunakan untuk mengukur probabilitas risiko psikologis Anda melalui pendekatan Machine Learning.
+              <p className="text-stone-400 text-sm leading-relaxed mb-6">
+                Platform prediksi risiko kesehatan mental remaja berbasis 
+                machine learning. Dirancang untuk meningkatkan kesadaran diri, 
+                bukan menggantikan diagnosis profesional.
               </p>
-              <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 max-w-md text-rose-700 text-sm">
-                <strong className="block mb-1 text-rose-800">Disclaimer Medis</strong>
-                Platform ini bukan pengganti diagnosis klinis. Hubungi <strong>119</strong> jika Anda memerlukan bantuan profesional darurat.
+              <div className="bg-rose-50 border border-rose-100 rounded-lg p-4">
+                <p className="text-rose-700 text-xs leading-relaxed">
+                  <strong className="block mb-1 text-rose-800 text-xs">Disclaimer Medis</strong>
+                  Platform ini bukan pengganti diagnosis klinis. Hubungi <strong>119</strong> jika Anda memerlukan bantuan profesional darurat.
+                </p>
               </div>
             </div>
             
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Platform</h4>
-              <ul className="space-y-4">
-                <li><a href="#" className="text-slate-500 hover:text-indigo-600 transition-colors">Beranda</a></li>
-                <li><Link href="/tes" className="text-slate-500 hover:text-indigo-600 transition-colors">Mulai Tes</Link></li>
-                <li><a href="#metode" className="text-slate-500 hover:text-indigo-600 transition-colors">Apa yang Dievaluasi</a></li>
-                <li><a href="#" className="text-slate-500 hover:text-indigo-600 transition-colors">Kebijakan Privasi</a></li>
+              <h4 className="font-semibold text-stone-800 text-sm mb-4">Platform</h4>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#" className="text-stone-400 hover:text-teal-700 transition-colors">Beranda</a></li>
+                <li><Link href="/tes" className="text-stone-400 hover:text-teal-700 transition-colors">Mulai Asesmen</Link></li>
+                <li><a href="#tentang" className="text-stone-400 hover:text-teal-700 transition-colors">Tentang Sistem</a></li>
+                <li><a href="#cara-kerja" className="text-stone-400 hover:text-teal-700 transition-colors">Cara Kerja</a></li>
               </ul>
             </div>
-            
+
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Informasi</h4>
-              <ul className="space-y-4">
-                <li><span className="text-slate-500">Tentang Kami</span></li>
-                <li><span className="text-slate-500">Pusat Bantuan</span></li>
-                <li><span className="text-slate-500">Hubungi Kami</span></li>
+              <h4 className="font-semibold text-stone-800 text-sm mb-4">Informasi</h4>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#faq" className="text-stone-400 hover:text-teal-700 transition-colors">FAQ</a></li>
+                <li><span className="text-stone-400">Kebijakan Privasi</span></li>
+                <li><span className="text-stone-400">Syarat & Ketentuan</span></li>
               </ul>
             </div>
           </div>
           
-          <div className="pt-8 border-t border-slate-100 text-sm text-slate-400 font-medium flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>&copy; {new Date().getFullYear()} NeuralMind.id. Hak Cipta Dilindungi.</div>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-slate-600 transition-colors">Syarat & Ketentuan</a>
-              <a href="#" className="hover:text-slate-600 transition-colors">Hubungi Kami</a>
-            </div>
+          <div className="pt-8 border-t border-stone-100 text-xs text-stone-400 font-medium flex flex-col md:flex-row justify-between items-center gap-3">
+            <div>&copy; {new Date().getFullYear()} NeuralMind.id — Proyek penelitian berbasis data mining.</div>
+            <div className="text-stone-300">Dibangun dengan Next.js, XGBoost, dan MFO.</div>
           </div>
         </div>
       </footer>
