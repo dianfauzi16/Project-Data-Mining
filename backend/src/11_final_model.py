@@ -333,18 +333,21 @@ with mlflow.start_run(run_name="XGBoost_ClassifierChain_Final_Standardized"):
     mlflow.log_metric("validation_samples",  X_val.shape[0])
     mlflow.log_metric("test_samples",        X_test.shape[0])
 
-    report_path = "classification_report.txt"
+    outputs_dir = root_path / "outputs"
+    outputs_dir.mkdir(parents=True, exist_ok=True)
+
+    report_path = outputs_dir / "classification_report.txt"
     with open(report_path, "w") as f:
         f.write(class_report)
-    mlflow.log_artifact(report_path)
+    mlflow.log_artifact(str(report_path))
 
-    thresholds_path = "optimal_thresholds.txt"
+    thresholds_path = outputs_dir / "optimal_thresholds.txt"
     with open(thresholds_path, "w") as f:
         f.write("Optimal Thresholds per Label:\n")
         f.write("-" * 40 + "\n")
         for label, threshold in zip(target_cols, best_thresholds):
             f.write(f"{label}: {threshold:.4f}\n")
-    mlflow.log_artifact(thresholds_path)
+    mlflow.log_artifact(str(thresholds_path))
 
     mlflow.log_artifact(str(model_save_path))
     print("✓ MLflow logging complete")
