@@ -1,8 +1,8 @@
 {
   "thresholds": {
-    "risk_depression": 0.42,
-    "risk_anxiety": 0.28,
-    "risk_stress": 0.64
+    "risk_depression": 0.38,
+    "risk_anxiety": 0.27,
+    "risk_stress": 0.61
   },
   "selected_features": [
     "TIPI1",
@@ -10,14 +10,13 @@
     "TIPI4",
     "TIPI5",
     "TIPI6",
+    "TIPI8",
     "TIPI9",
     "TIPI10",
     "education",
-    "urban",
     "gender",
     "age",
-    "religion",
-    "married",
+    "race",
     "familysize"
   ]
 }

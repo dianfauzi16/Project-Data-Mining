@@ -20,7 +20,7 @@ import pyswarms as ps
 # ==========================================
 # 0. MLFLOW SETUP
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -137,7 +137,7 @@ options = {'c1': 0.5, 'c2': 0.5, 'w': 0.9, 'k': 30, 'p': 2}
 optimizer = ps.discrete.binary.BinaryPSO(n_particles=30, dimensions=num_features, options=options)
 
 bpso_start_time = time.time()
-cost, pos = optimizer.optimize(fitness_function, iters=20)
+cost, pos = optimizer.optimize(fitness_function, iters=30)
 bpso_time = time.time() - bpso_start_time
 print(f"   ✓ BPSO Feature Selection selesai dalam {bpso_time:.2f} detik.")
 

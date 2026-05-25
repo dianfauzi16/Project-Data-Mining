@@ -26,3 +26,5 @@
 2026-05-25 04:13:15,269 - pyswarms.discrete.binary - INFO - Optimization finished | best cost: 0.2446415531745354, best pos: [1 1 1 1 1 1 0 1 1 1 1 0 1 0 1 1 0 0 1]
 2026-05-25 19:00:57,737 - pyswarms.discrete.binary - INFO - Optimize for 50 iters with {'c1': 0.5, 'c2': 0.5, 'w': 0.9, 'k': 30, 'p': 2}
 2026-05-25 19:08:52,112 - pyswarms.discrete.binary - INFO - Optimization finished | best cost: 0.24363815933538163, best pos: [1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 1 0 1]
+2026-05-26 00:49:18,795 - pyswarms.discrete.binary - INFO - Optimize for 30 iters with {'c1': 0.5, 'c2': 0.5, 'w': 0.9, 'k': 30, 'p': 2}
+2026-05-26 00:53:00,031 - pyswarms.discrete.binary - INFO - Optimization finished | best cost: 0.24359748982804597, best pos: [1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 0 1 1]

@@ -17,7 +17,7 @@ import time
 # ==========================================
 # 1. SETUP PATH & MLFLOW
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -82,11 +82,13 @@ print(f"   Final Training: n_est={xgb_params_final['n_estimators']}, lr={xgb_par
 # 4. DEFINISI ALGORITMA MFO BINER
 # ==========================================
 class BinaryMFO:
-    def __init__(self, num_moths, max_iterations, num_features, alpha=0.01):
+    def __init__(self, num_moths, max_iterations, num_features, alpha=0.01, transfer_type='V-shaped', fitness_mode='full'):
         self.num_moths = num_moths
         self.max_iterations = max_iterations
         self.num_features = num_features
         self.alpha = alpha  # Penalty untuk feature count
+        self.transfer_type = transfer_type
+        self.fitness_mode = fitness_mode  # 'val' (80-20 split) or 'full' (seluruh SMOTE train)
         
         # Inisialisasi posisi ngengat secara acak (0 atau 1)
         self.moths = np.random.randint(2, size=(num_moths, num_features))
@@ -100,9 +102,9 @@ class BinaryMFO:
 
     def evaluate_fitness(self, moth_position):
         """
-        Hitung fitness dengan internal train-val split.
-        - Train di X_fit_train (80% data SMOTE)
-        - Evaluate di X_fit_val (20% data SMOTE)
+        Hitung fitness.
+        - Jika fitness_mode == 'val': Train di X_fit_train (80%) & Evaluate di X_fit_val (20%)
+        - Jika fitness_mode == 'full': Train di seluruh X_train & Evaluate di X_train (seperti GA)
         
         Cost = (1 - f1_score) + alpha * (feature_count / total_features)
         Lebih rendah = lebih baik (minimize)
@@ -113,15 +115,21 @@ class BinaryMFO:
         if np.count_nonzero(selected_features_mask) == 0:
             return 1.0
         
-        # Ambil subset fitur dari split internal
-        X_sub_train = X_fit_train[:, selected_features_mask]
-        X_sub_val   = X_fit_val[:, selected_features_mask]
+        if self.fitness_mode == 'val':
+            X_sub_train = X_fit_train[:, selected_features_mask]
+            X_sub_eval   = X_fit_val[:, selected_features_mask]
+            Y_sub_train = Y_fit_train
+            Y_sub_eval   = Y_fit_val
+        else: # 'full'
+            X_sub_train = X_train[:, selected_features_mask]
+            X_sub_eval   = X_train[:, selected_features_mask]
+            Y_sub_train = Y_train
+            Y_sub_eval   = Y_train
         
         try:
-            # Train di 80% → Evaluate di 20% (TIDAK ada double fit)
-            self.model.fit(X_sub_train, Y_fit_train)
-            preds = self.model.predict(X_sub_val)
-            f1 = f1_score(Y_fit_val, preds, average='macro', zero_division=0)
+            self.model.fit(X_sub_train, Y_sub_train)
+            preds = self.model.predict(X_sub_eval)
+            f1 = f1_score(Y_sub_eval, preds, average='macro', zero_division=0)
         except Exception as e:
             print(f"   ⚠️ Error dalam fitness evaluation: {e}")
             return 1.0
@@ -164,21 +172,34 @@ class BinaryMFO:
                 self.flames = combined_population[best_indices]
                 self.flame_fitness = combined_fitness[best_indices]
             
+            # Adaptive Flame Number: Jumlah api (flames) berkurang secara linear
+            num_flames = int(np.round(self.num_moths - iteration * ((self.num_moths - 1) / self.max_iterations)))
+            num_flames = max(1, num_flames)
+            
             # Update Posisi Ngengat berdasarkan persamaan Logarithmic Spiral
             a = -1 + iteration * ((-1) / self.max_iterations)
             
             for i in range(self.num_moths):
+                # Ngengat hanya tertarik pada active flames terbaik
+                flame_no = min(i, num_flames - 1)
+                
                 for j in range(self.num_features):
-                    flame_no = i if i < self.num_moths else self.num_moths - 1
-                    
                     distance_to_flame = abs(self.flames[flame_no, j] - self.moths[i, j])
                     b = 1
                     t = (a - 1) * np.random.rand() + 1
                     
                     new_position_continuous = distance_to_flame * np.exp(b * t) * np.cos(t * 2 * np.pi) + self.flames[flame_no, j]
                     
-                    sigmoid_val = 1 / (1 + np.exp(-new_position_continuous))
-                    self.moths[i, j] = 1 if sigmoid_val > 0.5 else 0
+                    if self.transfer_type == 'V-shaped':
+                        # V-shaped Transfer Function (V4)
+                        v_val = abs(new_position_continuous) / np.sqrt(1 + new_position_continuous**2)
+                        # Binarization rule: Bit-flip based on V-value probability
+                        if np.random.rand() < v_val:
+                            self.moths[i, j] = 1 - self.moths[i, j]
+                    else:
+                        # S-shaped (Sigmoid)
+                        sigmoid_val = 1 / (1 + np.exp(-new_position_continuous))
+                        self.moths[i, j] = 1 if sigmoid_val > 0.5 else 0
             
             # Display progress
             best_cost = self.flame_fitness[0]
@@ -205,16 +226,28 @@ class BinaryMFO:
 # 5. EKSEKUSI & MLFLOW LOGGING
 # ==========================================
 with mlflow.start_run(run_name="MFO_Feature_Selection_Standardized"):
-    # Parameter MFO
+    # Parameter MFO yang dioptimalkan
     NUM_MOTHS = 30
-    MAX_ITER = 20
-    ALPHA_PENALTY = 0.01
+    MAX_ITER = 30  # Naikkan iterasi sedikit agar eksplorasi maksimal
+    ALPHA_PENALTY = 0.0  # Set ke 0.0 agar setara dengan GA yang tidak menggunakan pinalti jumlah fitur
+    TRANSFER_FUNC = 'V-shaped'
+    FITNESS_MODE = 'full'  # Gunakan 'full' agar setara dengan evaluasi data GA
     
     print("\n" + "="*70)
-    print("MFO FEATURE SELECTION (STANDARDIZED PARAMETERS)")
+    print("MFO FEATURE SELECTION (UPGRADED: V-SHAPED + ADAPTIVE FLAMES)")
     print("="*70)
+    print(f"   Moths: {NUM_MOTHS} | Iterations: {MAX_ITER}")
+    print(f"   Transfer Function: {TRANSFER_FUNC} | Fitness Mode: {FITNESS_MODE}")
+    print(f"   Alpha penalty: {ALPHA_PENALTY}")
     
-    mfo = BinaryMFO(num_moths=NUM_MOTHS, max_iterations=MAX_ITER, num_features=num_features, alpha=ALPHA_PENALTY)
+    mfo = BinaryMFO(
+        num_moths=NUM_MOTHS, 
+        max_iterations=MAX_ITER, 
+        num_features=num_features, 
+        alpha=ALPHA_PENALTY,
+        transfer_type=TRANSFER_FUNC,
+        fitness_mode=FITNESS_MODE
+    )
     best_mask, best_f1, best_cost = mfo.optimize()
     
     # Menerapkan seleksi pada dataset
