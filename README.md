@@ -2,7 +2,7 @@
 
 An advanced machine learning project focused on multi-label classification using XGBoost with optimization techniques and explainability analysis.
 
-**Live Demo:** https://project-data-mining-jade.vercel.app
+**Live Demo:** https://neuralmind-id.vercel.app
 
 ---
 
@@ -87,23 +87,17 @@ I --> J
 
 ```
 Project-Data-Mining/
-├── notebooks/              # Jupyter notebooks for analysis
-│   ├── 01_eda.ipynb       # Exploratory Data Analysis
-│   ├── 02_preprocessing.ipynb
-│   ├── 03_modeling.ipynb
-│   └── 04_evaluation.ipynb
+├── backend/               
+│   ├── app                # FlaskAPI 
+│   ├── data               # Dataset storage
+│   ├── models             # Trained model artifacts
+│   ├── notebooks          # Jupyter notebooks for analysis
+|   ├── outputs            # Analysis outputs & visualizations
+|   └── src                # Python source code
 ├── frontend/              # Next.js web application
 │   ├── app/
 │   ├── components/
 │   └── package.json
-├── src/                   # Python source code
-│   ├── data/
-│   ├── models/
-│   ├── utils/
-│   └── config.py
-├── data/                  # Dataset storage
-├── models/                # Trained model artifacts
-├── results/               # Analysis outputs & visualizations
 ├── README.md
 └── requirements.txt       # Python dependencies
 ```
@@ -118,12 +112,16 @@ Project-Data-Mining/
 - Node.js 16+ (for frontend)
 - pip or conda package manager
 
-### Backend Setup
-
-1. **Clone the repository:**
+### Clone Repository
    ```bash
    git clone https://github.com/dianfauzi16/Project-Data-Mining.git
    cd Project-Data-Mining
+   ```
+### Backend Setup
+
+1. **Navigate to backend directory:**
+   ```bash
+   cd backend
    ```
 
 2. **Create virtual environment:**
@@ -137,9 +135,9 @@ Project-Data-Mining/
    pip install -r requirements.txt
    ```
 
-4. **Run Jupyter notebooks:**
+4. **Run backend server:**
    ```bash
-   jupyter notebook
+   uvicorn app.main:app --reload
    ```
 
 ### Frontend Setup
@@ -243,7 +241,7 @@ This project is open source and available under the MIT License. Feel free to us
 
 **Author**: dianfauzi16  
 **GitHub**: [@dianfauzi16](https://github.com/dianfauzi16)  
-**Live Demo**: [project-data-mining-jade.vercel.app](https://project-data-mining-jade.vercel.app)
+**Live Demo**: [project-data-mining-jade.vercel.app](https://neuralmind-id.vercel.app)
 
 ---
 
