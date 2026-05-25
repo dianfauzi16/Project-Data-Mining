@@ -63,20 +63,8 @@ xgb_params_fitness = {
     'n_jobs': -1
 }
 
-xgb_params_final = {
-    'n_estimators': 300,
-    'learning_rate': 0.05,
-    'max_depth': 3,
-    'gamma': 0.2,
-    'colsample_bytree': 0.7,
-    'random_state': 42,
-    'eval_metric': 'logloss',
-    'n_jobs': -1
-}
-
 print("\n🔧 2. XGBoost Parameters untuk Standardized Benchmarking:")
 print(f"   Fitness Phase: n_est={xgb_params_fitness['n_estimators']}, lr={xgb_params_fitness['learning_rate']}")
-print(f"   Final Training: n_est={xgb_params_final['n_estimators']}, lr={xgb_params_final['learning_rate']}")
 
 # ==========================================
 # 4. DEFINISI ALGORITMA MFO BINER

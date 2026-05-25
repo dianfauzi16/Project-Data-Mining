@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import pandas as pd
 import numpy as np
 import mlflow
 from pathlib import Path
-from IPython.display import display, Markdown
+# from IPython.display import display, Markdown
 
 # ==========================================
 # 1. SETUP PATH & MLFLOW
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -43,6 +43,18 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
                 ['introelapse', 'testelapse', 'surveyelapse', 'screensize', 
                  'uniquenetworklocation', 'source', 'hand']
     df = df.drop(columns=tech_cols, errors='ignore')
+    
+    # Menghapus kolom VCL1-16 (Vocabulary Checklist)
+    # Kolom ini hanya digunakan untuk validasi atensi responden, bukan fitur psikososial
+    vcl_cols = [f"VCL{i}" for i in range(1, 17)]
+    df = df.drop(columns=vcl_cols, errors="ignore")
+    
+    # Menghapus fitur demografis yang tidak relevan untuk konteks penelitian di Indonesia
+    # - engnat: English as native language, tidak relevan untuk responden Indonesia
+    # - orientation: orientasi seksual, di luar cakupan penelitian psikososial remaja
+    demo_drop_cols = ["engnat", "orientation"]
+    df = df.drop(columns=demo_drop_cols, errors="ignore")
+    print("   ✔ Kolom VCL1-16, engnat, orientation berhasil di-drop.")
     
     # ==========================================
     # 3. PENANGANAN MISSING VALUE
@@ -83,6 +95,13 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     # ==========================================
     # Menghapus 42 pertanyaan asli dan skor total agar model tidak "mencontek"
     df_final = df.drop(columns=q_cols + ['score_depression', 'score_anxiety', 'score_stress', 'country'])
+    
+    # Menghapus baris duplikat alami (responden berbeda dengan jawaban identik)
+    # Mencegah data overlap saat train-test split
+    # n_before_dedup = len(df_final)
+    # df_final = df_final.drop_duplicates()
+    # n_dupes = n_before_dedup - len(df_final)
+    # print(f"   \u2714 {n_dupes} baris duplikat dihapus.")
 
     # ==========================================
     # 6. SIMPAN HASIL & LOGGING
@@ -101,11 +120,11 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     Data telah dibersihkan dan ditransformasi sesuai standar medis DASS-42.
 
     **Detail Perubahan:**
-    * **Data Cleaning:** Menghapus variabel teknis & memfilter usia (15-24 thn).
+    * **Data Cleaning:** Menghapus variabel teknis, VCL1-16, engnat, orientation & memfilter usia (15-24 thn).
     * **Outlier:** Berhasil ditangani melalui pemfilteran usia.
     * **Missing Value:** Menghapus kolom 'major' dan baris kosong.
     * **Feature Engineering:** Menghasilkan 3 label target (*risk_depression, risk_anxiety, risk_stress*).
-    * **Encoding:** Variabel kategorikal (Gender, Religion, dll) dipastikan tetap dalam format numerik.
+    * **Drop Fitur:** VCL1-16 (validasi),engnat, orientation (tidak relevan untuk konteks Indonesia).
 
     **Status Data:**
     * Jumlah awal: {initial_count:,} baris.
@@ -114,5 +133,5 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
 
     ✅ *Dataset bersih siap dilanjutkan ke Tahap 04: Train-Test Split.*
     """
-    display(Markdown(summary))
+    print(summary)
 

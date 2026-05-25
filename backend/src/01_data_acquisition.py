@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
 import mlflow
-from IPython.display import display, Markdown
 from pathlib import Path
 # 1. SETUP PATH & MLFLOW
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 # Menentukan lokasi penyimpanan log mlflow
 import os
 from dotenv import load_dotenv
@@ -67,10 +66,10 @@ with mlflow.start_run(run_name="Initial_Data_Profiling"):
 | **Tipe Data** | Mayoritas *Integer* (Numerik) | 
 
 """
-    display(Markdown(profiling_msg))
+    print(profiling_msg)
 
     print("\n👁️ Cuplikan 5 Baris Pertama Data Mentah:")
-    display(df_raw.head())
+    print(df_raw.head())
 
 print(f"\n✅ Tracking selesai.")
 

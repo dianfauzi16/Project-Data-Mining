@@ -8,12 +8,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import mlflow
 from pathlib import Path
-from IPython.display import display, Markdown
+# from IPython.display import display, Markdown
 
 # ==========================================
 # 1. SETUP PATH & MLFLOW
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -77,5 +77,5 @@ with mlflow.start_run(run_name="Standard_80_20_Split"):
     
     ✅ *Data tersimpan di folder `Data/split/`. Siap dilanjutkan ke penanganan imbalance.*
     """
-    display(Markdown(summary))
+    print(summary)
 

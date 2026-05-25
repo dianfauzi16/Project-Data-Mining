@@ -6,47 +6,43 @@ stages:
     outs:
       - Data/raw
 
-  exploratory_data_analysis:
-    cmd: python src/02_exploratory_data_analysis.py
-    deps:
-      - Data/raw
-      - src/02_exploratory_data_analysis.py
-
   preprocessing:
     cmd: python src/03_data_preprocessing.py
     deps:
-      - Data/raw
+      - Data/raw/Dataset.csv
       - src/03_data_preprocessing.py
     outs:
-      - Data/processed
+      - Data/processed/cleaned_data.csv
 
   train_test_split:
     cmd: python src/04_train_test_split.py
     deps:
-      - Data/processed
+      - Data/processed/cleaned_data.csv
       - src/04_train_test_split.py
     outs:
-      - Data/split
+      - Data/split/train_data.csv
+      - Data/split/test_data.csv
 
   imbalance_handling:
     cmd: python src/05_multilabel_imbalance_handling.py
     deps:
-      - Data/split
+      - Data/split/train_data.csv
       - src/05_multilabel_imbalance_handling.py
+    outs:
+      - Data/processed/train_balanced_multilabel.csv
+
+  mfo_feature_selection:
+    cmd: python src/06_mfo_feature_selection.py
+    deps:
+      - Data/processed/train_balanced_multilabel.csv
+      - src/06_mfo_feature_selection.py
+    outs:
+      - Data/processed/train_selected_features.csv
 
   final_model_training:
     cmd: python src/11_final_model.py
     deps:
-      - Data/split
-      - src/05_multilabel_imbalance_handling.py
-      - src/11_final_model.py
-    outs:
-      - models/multilabel_xgboost_classifier_chain.pkl
+      - Data/processed/train_selected_features.csv
+      - Data/split/test_data.csv
       - models/best_xgb_params.json
-      - models/optimal_thresholds.json
-
-  shap_explainability:
-    cmd: python src/10_shap_explainability.py
-    deps:
-      - models/multilabel_xgboost_classifier_chain.pkl
-      - src/10_shap_explainability.py
+      - src/11_final_model.py

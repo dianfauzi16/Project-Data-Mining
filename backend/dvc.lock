@@ -1,0 +1,102 @@
+schema: '2.0'
+stages:
+  data_acquisition:
+    cmd: python src/01_data_acquisition.py
+    deps:
+    - path: src/01_data_acquisition.py
+      hash: md5
+      md5: ba3e0c940974b60d7bc16c00f1e45cdb
+      size: 2623
+    outs:
+    - path: Data/raw
+      hash: md5
+      md5: 816e86c53947e8c99abcf8e763a0638f.dir
+      size: 20815852
+      nfiles: 1
+  preprocessing:
+    cmd: python src/03_data_preprocessing.py
+    deps:
+    - path: Data/raw/Dataset.csv
+      hash: md5
+      md5: 31f41fe668449312797a07e967bec506
+      size: 20815852
+    - path: src/03_data_preprocessing.py
+      hash: md5
+      md5: 4a2ecc9fe655159841ccd3c34479e0b6
+      size: 6136
+    outs:
+    - path: Data/processed/cleaned_data.csv
+      hash: md5
+      md5: c9f5c9180f76ebf3e3fbc2ca719dc18c
+      size: 1295421
+  train_test_split:
+    cmd: python src/04_train_test_split.py
+    deps:
+    - path: Data/processed/cleaned_data.csv
+      hash: md5
+      md5: c9f5c9180f76ebf3e3fbc2ca719dc18c
+      size: 1295421
+    - path: src/04_train_test_split.py
+      hash: md5
+      md5: c500ec6f419a6b8660db8f1bc6cf2dc1
+      size: 3161
+    outs:
+    - path: Data/split/test_data.csv
+      hash: md5
+      md5: d07bbabc4630c8e71abd2c2f82fb5470
+      size: 259236
+    - path: Data/split/train_data.csv
+      hash: md5
+      md5: a91b3cbca32da7d14d5d16e75172606e
+      size: 1036354
+  imbalance_handling:
+    cmd: python src/05_multilabel_imbalance_handling.py
+    deps:
+    - path: Data/split/train_data.csv
+      hash: md5
+      md5: a91b3cbca32da7d14d5d16e75172606e
+      size: 1036354
+    - path: src/05_multilabel_imbalance_handling.py
+      hash: md5
+      md5: 341388f0c1bc50fbda28b964329c4c3a
+      size: 25348
+    outs:
+    - path: Data/processed/train_balanced_multilabel.csv
+      hash: md5
+      md5: f6ea6ecf3adb85ab171cb40509f0c3f3
+      size: 825449
+  mfo_feature_selection:
+    cmd: python src/06_mfo_feature_selection.py
+    deps:
+    - path: Data/processed/train_balanced_multilabel.csv
+      hash: md5
+      md5: f6ea6ecf3adb85ab171cb40509f0c3f3
+      size: 825449
+    - path: src/06_mfo_feature_selection.py
+      hash: md5
+      md5: 553d200cd5a9f5c2f72cbad2e87d7f1f
+      size: 13449
+    outs:
+    - path: Data/processed/train_selected_features.csv
+      hash: md5
+      md5: 6b343481efb7e46c09034dd98c46bb03
+      size: 591034
+  final_model_training:
+    cmd: python src/11_final_model.py
+    deps:
+    - path: Data/processed/train_selected_features.csv
+      hash: md5
+      md5: 6b343481efb7e46c09034dd98c46bb03
+      size: 591034
+    - path: Data/split/test_data.csv
+      hash: md5
+      md5: d07bbabc4630c8e71abd2c2f82fb5470
+      size: 259236
+    - path: models/best_xgb_params.json
+      hash: md5
+      md5: 8931cc7058dc45ce066dbcfcac25620d
+      size: 239
+    - path: src/11_final_model.py
+      hash: md5
+      md5: bc72848e54743b27520cc052b4bb6cb8
+      size: 16858

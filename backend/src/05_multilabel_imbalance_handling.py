@@ -1,233 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
-
-
-# ============================================================
-# DEMONSTRASI KALKULASI: Mengapa Total Tidak Sesuai?
-# ============================================================
-
-print("📊 DEMONSTRASI ALUR DATA MELALUI MLSMOTE")
-print("=" * 80)
-
-# Simulasi dengan angka dari code
-minority_before = 3635
-majority_before = 11381
-target_ratio_multiplier = 1.2
-
-print("\n🔵 TAHAP 0: DATA AWAL")
-print("-" * 80)
-print(f"Minority (Aman Semua - D0_A0_S0)     : {minority_before:>10,}")
-print(f"Majority (Berisiko ≥1 label)         : {majority_before:>10,}")
-print(f"{'─' * 40}")
-data_awal = minority_before + majority_before
-print(f"TOTAL DATA AWAL                      : {data_awal:>10,}")
-print(f"Imbalance Ratio (Majority ÷ Minority): 1 : {majority_before/minority_before:>10.2f}")
-
-print("\n🟡 TAHAP 1: UNDERSAMPLING MAYORITAS")
-print("-" * 80)
-target_majority = int(minority_before * target_ratio_multiplier)
-undersampled_amount = majority_before - target_majority
-print(f"Target Majority = Minority × {target_ratio_multiplier}")
-print(f"                = {minority_before:,} × {target_ratio_multiplier}")
-print(f"                = {target_majority:,}")
-print(f"\nMajority sebelum : {majority_before:>10,}")
-print(f"Majority sesudah : {target_majority:>10,}")
-print(f"Berkurang sebesar: {undersampled_amount:>10,} baris ❌")
-
-print("\n🟢 TAHAP 2: MLSMOTE - OVERSAMPLING MINORITAS")
-print("-" * 80)
-n_synthetic = target_majority - minority_before
-print(f"N_Synthetic = Target Majority - Minority")
-print(f"            = {target_majority:,} - {minority_before:,}")
-print(f"            = {n_synthetic:,}")
-print(f"\nMinority sebelum   : {minority_before:>10,}")
-print(f"Synthetic dibuat   : {n_synthetic:>10,}")
-print(f"Minority sesudah   : {minority_before + n_synthetic:>10,} ✅")
-
-print("\n🔵 TAHAP 3: COMBINE SEMUA DATA")
-print("-" * 80)
-print(f"Komponen data akhir:")
-print(f"  1. Majority (undersampled) : {target_majority:>10,}")
-print(f"  2. Minority Original       : {minority_before:>10,}")
-print(f"  3. Synthetic Minority      : {n_synthetic:>10,}")
-print(f"  {'─' * 50}")
-data_akhir = target_majority + minority_before + n_synthetic
-print(f"TOTAL DATA AKHIR             : {data_akhir:>10,}")
-
-# Verifikasi: data akhir = 2 × target_majority
-print(f"\nVerifikasi: Data Akhir = 2 × Target Majority")
-print(f"           {data_akhir:,} = 2 × {target_majority:,}")
-print(f"           {data_akhir:,} = {2 * target_majority:,} ✓")
-
-print("\n📈 PERBANDINGAN AWAL vs AKHIR")
-print("=" * 80)
-print(f"{'Metrik':<40} {'Sebelum':>15} {'Sesudah':>15} {'Perubahan':>15}")
-print("-" * 80)
-print(f"{'Total Data':<40} {data_awal:>15,} {data_akhir:>15,} {data_akhir-data_awal:>15,}")
-print(f"{'Imbalance Ratio':<40} {'1:' + f'{majority_before/minority_before:.2f}':>15} {'1:1.00':>15} {'Balance':>15}")
-print(f"{'Minority Count':<40} {minority_before:>15,} {minority_before + n_synthetic:>15,} {n_synthetic:>15,} ✅")
-print(f"{'Majority Count':<40} {majority_before:>15,} {target_majority:>15,} {-undersampled_amount:>15,} ❌")
-
-print("\n💡 KESIMPULAN")
-print("=" * 80)
-print(f"""
-✓ Minority + Majority AWAL      = {data_awal:,}
-✗ Minority + Majority AKHIR     = {data_akhir:,}
-  
-Mengapa berbeda?
-  • UNDERSAMPLING mengurangi data: {undersampled_amount:,} baris
-  • OVERSAMPLING menambah data:    {n_synthetic:,} baris
-  • Net result: Data berkurang {data_awal - data_akhir:,} baris
-  
-Trade-off yang diambil:
-  ✓ Data berkurang ({data_awal:,} → {data_akhir:,})
-  ✓ Tapi kelas menjadi seimbang (1:3.13 → 1:1.00)
-  
-Alasan:
-  Kualitas > Kuantitas
-  Model akan belajar lebih baik dengan data balanced daripada data banyak tapi imbalanced!
-""")
-print("=" * 80)
-
-
-# In[8]:
-
-
-# ============================================================
-# VISUALISASI: Alur Data Melalui Pipeline MLSMOTE
-# ============================================================
-
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
-import numpy as np
-
-fig, axes = plt.subplots(1, 3, figsize=(18, 8))
-fig.suptitle('Alur Data Melalui Pipeline MLSMOTE: Mengapa Total Berubah?', 
-             fontsize=16, fontweight='bold', y=0.98)
-
-# Data
-minority_before = 3635
-majority_before = 11381
-target_majority = 4362
-n_synthetic = 727
-data_awal = minority_before + majority_before
-data_akhir = target_majority + minority_before + n_synthetic
-
-# ========== SUBPLOT 1: DATA AWAL ==========
-ax1 = axes[0]
-ax1.set_xlim(0, 10)
-ax1.set_ylim(0, 15)
-ax1.axis('off')
-ax1.set_title('TAHAP 0: DATA AWAL\n(Imbalanced)', fontsize=13, fontweight='bold', color='#c0392b', pad=20)
-
-# Minority bar
-y_pos = 10
-rect1 = FancyBboxPatch((1, y_pos), 3, 2, boxstyle="round,pad=0.1", 
-                       edgecolor='#2ecc71', facecolor='#2ecc71', linewidth=2, alpha=0.7)
-ax1.add_patch(rect1)
-ax1.text(2.5, y_pos + 1, f'Minority\n(Aman Semua)\n{minority_before:,}', 
-         ha='center', va='center', fontsize=11, fontweight='bold', color='white')
-
-# Majority bar
-rect2 = FancyBboxPatch((5, y_pos), 3, 7.5, boxstyle="round,pad=0.1", 
-                       edgecolor='#e74c3c', facecolor='#e74c3c', linewidth=2, alpha=0.7)
-ax1.add_patch(rect2)
-ax1.text(6.5, y_pos + 3.75, f'Majority\n(Berisiko≥1)\n{majority_before:,}', 
-         ha='center', va='center', fontsize=11, fontweight='bold', color='white')
-
-# Total
-ax1.text(5, 2, f'TOTAL = {data_awal:,}', ha='center', fontsize=12, 
-         fontweight='bold', bbox=dict(boxstyle='round', facecolor='#ecf0f1', edgecolor='black', linewidth=2))
-ax1.text(5, 0.5, 'Ratio: 1:3.13 (Imbalanced)', ha='center', fontsize=10, style='italic')
-
-# ========== SUBPLOT 2: UNDERSAMPLING & OVERSAMPLING ==========
-ax2 = axes[1]
-ax2.set_xlim(0, 10)
-ax2.set_ylim(0, 15)
-ax2.axis('off')
-ax2.set_title('TAHAP 1-2: PROSES BALANCING\n(Undersampling + MLSMOTE)', fontsize=13, fontweight='bold', color='#3498db', pad=20)
-
-# Undersampling arrow
-arrow1 = FancyArrowPatch((8.5, 12.5), (8.5, 10), arrowstyle='->', mutation_scale=30, 
-                        linewidth=3, color='#e74c3c', alpha=0.6)
-ax2.add_patch(arrow1)
-ax2.text(9.2, 11.2, f'UNDERSAMPLE\n-{majority_before - target_majority:,}', 
-         fontsize=9, fontweight='bold', color='#e74c3c', va='center')
-
-# Oversampling arrow
-arrow2 = FancyArrowPatch((1.5, 10), (1.5, 12.5), arrowstyle='->', mutation_scale=30, 
-                        linewidth=3, color='#27ae60', alpha=0.6)
-ax2.add_patch(arrow2)
-ax2.text(0.3, 11.2, f'OVERSAMPLE\n+{n_synthetic:,}', 
-         fontsize=9, fontweight='bold', color='#27ae60', va='center')
-
-# Minority setelah
-rect3 = FancyBboxPatch((0.5, 9), 3, 2.5, boxstyle="round,pad=0.1", 
-                       edgecolor='#27ae60', facecolor='#27ae60', linewidth=2, alpha=0.7)
-ax2.add_patch(rect3)
-ax2.text(2, 10.25, f'Minority\n(+Sintetis)\n{minority_before + n_synthetic:,}', 
-         ha='center', va='center', fontsize=10, fontweight='bold', color='white')
-
-# Majority setelah
-rect4 = FancyBboxPatch((5.5, 9), 3, 2.5, boxstyle="round,pad=0.1", 
-                       edgecolor='#c0392b', facecolor='#c0392b', linewidth=2, alpha=0.7)
-ax2.add_patch(rect4)
-ax2.text(7, 10.25, f'Majority\n(Dikurangi)\n{target_majority:,}', 
-         ha='center', va='center', fontsize=10, fontweight='bold', color='white')
-
-# Info
-ax2.text(5, 6.5, 'Net Effect:', ha='center', fontsize=11, fontweight='bold')
-ax2.text(5, 5.5, f'Undersampling: -{majority_before - target_majority:,} baris', 
-         ha='center', fontsize=10, color='#e74c3c', fontweight='bold')
-ax2.text(5, 4.5, f'Oversampling:  +{n_synthetic:,} baris', 
-         ha='center', fontsize=10, color='#27ae60', fontweight='bold')
-ax2.text(5, 3.2, f'Net Berkurang: -{(majority_before - target_majority) - n_synthetic:,} baris', 
-         ha='center', fontsize=11, fontweight='bold', 
-         bbox=dict(boxstyle='round', facecolor='#ffe6e6', edgecolor='#c0392b', linewidth=2))
-
-ax2.text(5, 0.5, '⚠️ Perhatian: Undersampling > Oversampling!', 
-         ha='center', fontsize=10, style='italic', fontweight='bold', color='#c0392b')
-
-# ========== SUBPLOT 3: DATA AKHIR ==========
-ax3 = axes[2]
-ax3.set_xlim(0, 10)
-ax3.set_ylim(0, 15)
-ax3.axis('off')
-ax3.set_title('TAHAP 3: DATA AKHIR\n(Balanced)', fontsize=13, fontweight='bold', color='#27ae60', pad=20)
-
-# Minority + Synthetic
-rect5 = FancyBboxPatch((1, 6), 3, 4, boxstyle="round,pad=0.1", 
-                       edgecolor='#27ae60', facecolor='#27ae60', linewidth=2, alpha=0.7)
-ax3.add_patch(rect5)
-ax3.text(2.5, 8, f'Minority\n+ Sintetis\n{minority_before + n_synthetic:,}', 
-         ha='center', va='center', fontsize=11, fontweight='bold', color='white')
-
-# Majority
-rect6 = FancyBboxPatch((5, 6), 3, 4, boxstyle="round,pad=0.1", 
-                       edgecolor='#c0392b', facecolor='#c0392b', linewidth=2, alpha=0.7)
-ax3.add_patch(rect6)
-ax3.text(6.5, 8, f'Majority\n(Undersampled)\n{target_majority:,}', 
-         ha='center', va='center', fontsize=11, fontweight='bold', color='white')
-
-# Total
-ax3.text(5, 3.5, f'TOTAL = {data_akhir:,}', ha='center', fontsize=12, 
-         fontweight='bold', bbox=dict(boxstyle='round', facecolor='#ecf0f1', edgecolor='black', linewidth=2))
-ax3.text(5, 2, f'Perubahan: {data_awal:,} → {data_akhir:,} (-{data_awal - data_akhir:,})', 
-         ha='center', fontsize=10, style='italic', color='#c0392b', fontweight='bold')
-ax3.text(5, 0.5, 'Ratio: 1:1.00 (Perfectly Balanced)', ha='center', fontsize=10, style='italic', 
-         bbox=dict(boxstyle='round', facecolor='#d5f4e6', edgecolor='#27ae60', linewidth=2))
-
-plt.tight_layout()
-plt.savefig(root_path / "outputs" / "imbalance_figures" / "00_mlsmote_data_flow_explanation.png", 
-            dpi=300, bbox_inches='tight')
-plt.show()
-print("✅ Visualisasi alur data berhasil disimpan!")
-
-
-# In[10]:
+# In[1]:
 
 
 import pandas as pd
@@ -238,14 +12,14 @@ import matplotlib.patches as mpatches
 import seaborn as sns
 from pathlib import Path
 from sklearn.neighbors import NearestNeighbors
-from IPython.display import display, Markdown
+# from IPython.display import display, Markdown
 import warnings
 warnings.filterwarnings('ignore')
 
 # ==========================================
 # 1. SETUP PATH & MLFLOW
 # ==========================================
-root_path = Path.cwd().parent
+root_path = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=root_path / ".env") # Load variabel dari .env
@@ -618,7 +392,7 @@ untuk mencapai distribusi kelas yang jauh lebih seimbang.
 
 ✅ *Dataset seimbang tersimpan di `Data/processed/train_balanced_multilabel.csv`. Siap untuk Tahap 06: Seleksi Fitur MFO.*
 """
-    display(Markdown(summary))
+    print(summary)
 
     # ==========================================
     # 11. VISUALISASI EDA — SEBELUM vs SESUDAH
