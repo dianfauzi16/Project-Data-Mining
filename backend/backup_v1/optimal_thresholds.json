@@ -1,8 +1,8 @@
 {
   "thresholds": {
     "risk_depression": 0.38,
-    "risk_anxiety": 0.52,
-    "risk_stress": 0.65
+    "risk_anxiety": 0.27,
+    "risk_stress": 0.61
   },
   "selected_features": [
     "TIPI1",

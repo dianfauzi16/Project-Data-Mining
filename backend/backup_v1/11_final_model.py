@@ -100,6 +100,27 @@ for k, v in xgb_params.items():
 # ==========================================
 # 4. HELPER FUNCTIONS
 # ==========================================
+def chain_predict_proba(model, X):
+    """
+    Rekonstruksi manual predict_proba untuk ClassifierChain.
+    Digunakan karena ClassifierChain.predict_proba() tidak kompatibel
+    dengan beberapa versi XGBoost/sklearn.
+    """
+    X_arr      = X.values if hasattr(X, 'values') else X.copy()
+    n_samples  = X_arr.shape[0]
+    n_targets  = len(model.estimators_)
+    all_probas = np.zeros((n_samples, n_targets))
+
+    X_aug = X_arr.copy()
+    for i, estimator in enumerate(model.estimators_):
+        proba            = estimator.predict_proba(X_aug)[:, 1]
+        all_probas[:, i] = proba
+        pred_label       = (proba >= 0.5).astype(int).reshape(-1, 1)
+        X_aug            = np.hstack([X_aug, pred_label])
+
+    return [np.column_stack([1 - all_probas[:, i], all_probas[:, i]])
+            for i in range(n_targets)]
+
 
 def chain_predict_proba_threshold(model, X, thresholds):
     """
@@ -147,11 +168,12 @@ with mlflow.start_run(run_name="XGBoost_ClassifierChain_Final_Standardized"):
     print("  (Model ini hanya untuk kalibrasi threshold, akan dibuang setelahnya)")
 
     # ==========================================
-    # 7. CARI THRESHOLD OPTIMAL DI VALIDATION ASLI (SEKUENSIAL)
+    # 7. CARI THRESHOLD OPTIMAL DI VALIDATION ASLI
     # ==========================================
-    print("\n🔍 6. Mencari Threshold Optimal di Validation ASLI (Sekuensial)...")
+    print("\n🔍 6. Mencari Threshold Optimal di Validation ASLI...")
 
-    X_aug_val = X_val.values if hasattr(X_val, 'values') else X_val.copy()
+    y_val_proba = chain_predict_proba(model_for_threshold, X_val)
+
     best_thresholds      = []
     validation_f1_scores = {}
 
@@ -159,12 +181,8 @@ with mlflow.start_run(run_name="XGBoost_ClassifierChain_Final_Standardized"):
     print(f"   {'-'*45}")
 
     for i, target_name in enumerate(target_cols):
-        estimator = model_for_threshold.estimators_[i]
         y_true    = Y_val.iloc[:, i]
-        
-        # Probabilitas untuk label saat ini (dengan aug dari threshold sebelumnya)
-        y_prob    = estimator.predict_proba(X_aug_val)[:, 1]
-        
+        y_prob    = y_val_proba[i][:, 1]
         thresholds = np.arange(0.1, 0.9, 0.01)
         f1_scores  = []
 
@@ -178,10 +196,6 @@ with mlflow.start_run(run_name="XGBoost_ClassifierChain_Final_Standardized"):
 
         best_thresholds.append(best_t)
         validation_f1_scores[target_name] = best_f1
-        
-        # Augmentasi X_aug_val untuk iterasi estimator berikutnya menggunakan threshold optimal ini
-        pred_label = (y_prob >= best_t).astype(int).reshape(-1, 1)
-        X_aug_val  = np.hstack([X_aug_val, pred_label])
 
         print(f"   {target_name:<22} {best_t:>10.2f} {best_f1:>10.4f}")
 

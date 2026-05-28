@@ -1,10 +1,10 @@
               precision    recall  f1-score   support
 
   Depression       0.84      0.78      0.81      3842
-     Anxiety       0.86      0.77      0.82      3995
-      Stress       0.79      0.82      0.80      3304
+     Anxiety       0.86      0.77      0.81      3995
+      Stress       0.79      0.81      0.80      3304
 
-   micro avg       0.83      0.79      0.81     11141
-   macro avg       0.83      0.79      0.81     11141
-weighted avg       0.83      0.79      0.81     11141
- samples avg       0.55      0.62      0.57     11141
+   micro avg       0.83      0.78      0.81     11141
+   macro avg       0.83      0.78      0.81     11141
+weighted avg       0.84      0.78      0.81     11141
+ samples avg       0.55      0.61      0.57     11141
