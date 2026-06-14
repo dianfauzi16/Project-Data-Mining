@@ -8,7 +8,7 @@ import { ArrowLeft, BrainCircuit, ChevronRight, ChevronLeft, CheckCircle, AlertT
 // --- Data Pertanyaan Lengkap (Akan di-filter dinamis berdasarkan API) ---
 
 const demografi = [
-  { id: "age", label: "Usia", type: "number", min: 15, max: 24, defaultValue: 20 },
+  { id: "age", label: "Usia", type: "number", min: 10, max: 18, defaultValue: 10 },
   { id: "gender", label: "Jenis Kelamin", type: "select", options: [{val: 1, label: "Laki-laki"}, {val: 2, label: "Perempuan"}] },
   { id: "education", label: "Tingkat Pendidikan", type: "select", options: [{val: 1, label: "Di Bawah SMA"}, {val: 2, label: "SMA/Sederajat"}, {val: 3, label: "Sarjana (S1)"}, {val: 4, label: "Pascasarjana (S2/S3)"}] },
   { id: "urban", label: "Wilayah Tempat Tinggal", type: "select", options: [{val: 1, label: "Pedesaan"}, {val: 2, label: "Pinggiran Kota"}, {val: 3, label: "Perkotaan"}] },
@@ -20,16 +20,56 @@ const demografi = [
 ];
 
 const tipi = [
-  { id: "TIPI1", text: "Saya adalah orang yang riang, ekstrovert", desc: "(Sebaliknya: Pendiam/Tertutup)" },
-  { id: "TIPI2", text: "Saya adalah orang yang kritis, suka berdebat", desc: "(Sebaliknya: Pemaaf/Lembut)" },
-  { id: "TIPI3", text: "Saya adalah orang yang dapat diandalkan, teratur", desc: "(Sebaliknya: Ceroboh)" },
-  { id: "TIPI4", text: "Saya mudah cemas, terguncang emosionalnya", desc: "(Sebaliknya: Tenang/Stabil)" },
-  { id: "TIPI5", text: "Saya terbuka terhadap pengalaman baru, kreatif", desc: "(Sebaliknya: Konvensional)" },
-  { id: "TIPI6", text: "Saya adalah orang yang pendiam, tertutup", desc: "(Sebaliknya: Ekstrovert/Sosial)" },
-  { id: "TIPI7", text: "Saya adalah orang yang simpatik, hangat", desc: "(Sebaliknya: Kritis)" },
-  { id: "TIPI8", text: "Saya adalah orang yang tidak terorganisir, ceroboh", desc: "(Sebaliknya: Rapi)" },
-  { id: "TIPI9", text: "Saya adalah orang yang tenang, stabil emosional", desc: "(Sebaliknya: Mudah cemas)" },
-  { id: "TIPI10", text: "Saya adalah orang yang konvensional", desc: "(Sebaliknya: Terbuka/Inovatif)" }
+  {
+    id: "TIPI1",
+    text: "Saya adalah orang yang riang dan ekstrovert",
+    desc: "(Sebaliknya: Pendiam, tertutup, dan kurang antusias)"
+  },
+  {
+    id: "TIPI2",
+    text: "Saya adalah orang yang kritis dan suka berdebat",
+    desc: "(Sebaliknya: Pemaaf, ramah, dan mudah bekerja sama)"
+  },
+  {
+    id: "TIPI3",
+    text: "Saya adalah orang yang dapat diandalkan dan disiplin",
+    desc: "(Sebaliknya: Tidak konsisten, kurang disiplin, dan ceroboh)"
+  },
+  {
+    id: "TIPI4",
+    text: "Saya mudah cemas dan mudah terganggu secara emosional",
+    desc: "(Sebaliknya: Tenang dan stabil secara emosional)"
+  },
+  {
+    id: "TIPI5",
+    text: "Saya terbuka terhadap pengalaman baru dan kreatif",
+    desc: "(Sebaliknya: Konvensional dan kurang terbuka terhadap ide baru)"
+  },
+  {
+    id: "TIPI6",
+    text: "Saya adalah orang yang pendiam dan tertutup",
+    desc: "(Sebaliknya: Ekstrovert, sosial, dan terbuka)"
+  },
+  {
+    id: "TIPI7",
+    text: "Saya adalah orang yang simpatik dan hangat",
+    desc: "(Sebaliknya: Dingin, kurang simpatik, dan kritis)"
+  },
+  {
+    id: "TIPI8",
+    text: "Saya adalah orang yang tidak terorganisir dan ceroboh",
+    desc: "(Sebaliknya: Teratur, rapi, dan terorganisir)"
+  },
+  {
+    id: "TIPI9",
+    text: "Saya adalah orang yang tenang dan stabil secara emosional",
+    desc: "(Sebaliknya: Mudah cemas dan mudah tertekan)"
+  },
+  {
+    id: "TIPI10",
+    text: "Saya adalah orang yang konvensional dan kurang kreatif",
+    desc: "(Sebaliknya: Kreatif, inovatif, dan terbuka terhadap ide baru)"
+  }
 ];
 
 const tipiOptions = [
@@ -67,6 +107,7 @@ export default function TesPage() {
   const [currentStep, setCurrentStep] = useState(-1); // -1 = Loading Config
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [showInsights, setShowInsights] = useState(false);
 
   // Dynamic Questions based on MFO selection from Backend
   const [activeDemografi, setActiveDemografi] = useState<any[]>([]);
@@ -138,6 +179,7 @@ export default function TesPage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    setShowInsights(false);
     setCurrentStep(stepsData.length); // Pindah ke loading / result view
     
     try {
@@ -324,7 +366,6 @@ export default function TesPage() {
             <div className="grid md:grid-cols-3 gap-6 mb-10">
               {/* Depresi */}
               <div className={`p-6 rounded-3xl border flex flex-col ${result.depression.risk === 'high' ? 'bg-red-50 border-red-200' : result.depression.risk === 'medium' ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200'}`}>
-                <div className="text-3xl mb-4">😔</div>
                 <h3 className="font-bold text-stone-900 mb-1">Depresi</h3>
                 <div className="flex items-end gap-2 mb-4">
                   <span className="text-3xl font-extrabold">{(result.depression.prob * 100).toFixed(0)}%</span>
@@ -333,9 +374,9 @@ export default function TesPage() {
                 <div className="w-full bg-black/5 rounded-full h-2 mb-6">
                   <div className={`h-2 rounded-full ${result.depression.risk === 'high' ? 'bg-red-500' : result.depression.risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'}`} style={{ width: `${result.depression.prob * 100}%` }}></div>
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow flex flex-col justify-between">
                   <p className="text-sm text-stone-700 mb-3">{getExplanation('depression', result.depression.risk).desc}</p>
-                  <div className="bg-white/60 p-3 rounded-xl border border-white/40">
+                  <div className="bg-white/60 p-3 rounded-xl border border-white/40 mt-auto">
                     <strong className="text-xs uppercase tracking-wider text-stone-500 block mb-1">Rekomendasi</strong>
                     <p className="text-sm font-medium text-stone-800">{getExplanation('depression', result.depression.risk).rec}</p>
                   </div>
@@ -344,7 +385,6 @@ export default function TesPage() {
 
               {/* Kecemasan */}
               <div className={`p-6 rounded-3xl border flex flex-col ${result.anxiety.risk === 'high' ? 'bg-red-50 border-red-200' : result.anxiety.risk === 'medium' ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200'}`}>
-                <div className="text-3xl mb-4">😰</div>
                 <h3 className="font-bold text-stone-900 mb-1">Kecemasan</h3>
                 <div className="flex items-end gap-2 mb-4">
                   <span className="text-3xl font-extrabold">{(result.anxiety.prob * 100).toFixed(0)}%</span>
@@ -353,9 +393,9 @@ export default function TesPage() {
                 <div className="w-full bg-black/5 rounded-full h-2 mb-6">
                   <div className={`h-2 rounded-full ${result.anxiety.risk === 'high' ? 'bg-red-500' : result.anxiety.risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'}`} style={{ width: `${result.anxiety.prob * 100}%` }}></div>
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow flex flex-col justify-between">
                   <p className="text-sm text-stone-700 mb-3">{getExplanation('anxiety', result.anxiety.risk).desc}</p>
-                  <div className="bg-white/60 p-3 rounded-xl border border-white/40">
+                  <div className="bg-white/60 p-3 rounded-xl border border-white/40 mt-auto">
                     <strong className="text-xs uppercase tracking-wider text-stone-500 block mb-1">Rekomendasi</strong>
                     <p className="text-sm font-medium text-stone-800">{getExplanation('anxiety', result.anxiety.risk).rec}</p>
                   </div>
@@ -364,7 +404,6 @@ export default function TesPage() {
 
               {/* Stres */}
               <div className={`p-6 rounded-3xl border flex flex-col ${result.stress.risk === 'high' ? 'bg-red-50 border-red-200' : result.stress.risk === 'medium' ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200'}`}>
-                <div className="text-3xl mb-4">😣</div>
                 <h3 className="font-bold text-stone-900 mb-1">Stres</h3>
                 <div className="flex items-end gap-2 mb-4">
                   <span className="text-3xl font-extrabold">{(result.stress.prob * 100).toFixed(0)}%</span>
@@ -373,15 +412,84 @@ export default function TesPage() {
                 <div className="w-full bg-black/5 rounded-full h-2 mb-6">
                   <div className={`h-2 rounded-full ${result.stress.risk === 'high' ? 'bg-red-500' : result.stress.risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'}`} style={{ width: `${result.stress.prob * 100}%` }}></div>
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow flex flex-col justify-between">
                   <p className="text-sm text-stone-700 mb-3">{getExplanation('stress', result.stress.risk).desc}</p>
-                  <div className="bg-white/60 p-3 rounded-xl border border-white/40">
+                  <div className="bg-white/60 p-3 rounded-xl border border-white/40 mt-auto">
                     <strong className="text-xs uppercase tracking-wider text-stone-500 block mb-1">Rekomendasi</strong>
                     <p className="text-sm font-medium text-stone-800">{getExplanation('stress', result.stress.risk).rec}</p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* CTA Insights */}
+            {!showInsights ? (
+              <div className="bg-teal-50 border border-teal-100 p-8 rounded-3xl text-center mb-10 animate-in fade-in duration-700">
+                <BrainCircuit className="w-12 h-12 text-teal-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-stone-900 mb-2">Ingin tahu mengapa Anda mendapat hasil ini?</h3>
+                <p className="text-stone-600 mb-6 max-w-md mx-auto">
+                  Sistem AI kami dapat menjelaskan secara transparan faktor apa saja dari profil Anda yang paling memengaruhi peningkatan atau penurunan risiko.
+                </p>
+                <button
+                  onClick={() => setShowInsights(true)}
+                  className="bg-white border-2 border-teal-700 text-teal-800 px-6 py-3 rounded-xl font-bold hover:bg-teal-700 hover:text-white transition-all shadow-sm"
+                >
+                  Telusuri Faktor Pemicu (Analisis AI)
+                </button>
+              </div>
+            ) : (
+              <div className="bg-white border border-stone-200 p-6 sm:p-8 rounded-3xl mb-10 shadow-sm animate-in fade-in slide-in-from-bottom-8 duration-500">
+                <div className="text-center mb-8">
+                  <span className="text-teal-700 font-bold uppercase tracking-wider text-sm mb-2 block">Laporan Deep Dive</span>
+                  <h3 className="text-2xl font-bold text-stone-900 mb-2">Faktor Pengaruh (AI Insights)</h3>
+                  <p className="text-stone-500">Berikut adalah 5 faktor utama dari jawaban Anda yang paling berkontribusi terhadap kalkulasi sistem.</p>
+                </div>
+                
+                <div className="space-y-8">
+                  {['depression', 'anxiety', 'stress'].map((condition) => {
+                    const labelMap = { depression: 'Depresi', anxiety: 'Kecemasan', stress: 'Stres' };
+                    const shaps = result[condition as keyof typeof result].shap_explanation;
+                    return (
+                      <div key={condition} className="bg-stone-50 p-6 rounded-2xl border border-stone-100">
+                        <h4 className="font-bold text-lg text-stone-800 mb-4 border-b border-stone-200 pb-2">
+                          Analisis Risiko {labelMap[condition as keyof typeof labelMap]}
+                        </h4>
+                        <div className="space-y-5">
+                          {shaps && shaps.map((shap: any, idx: number) => (
+                            <div key={idx} className="flex flex-col gap-1.5">
+                              <div className="flex justify-between items-end">
+                                <span className="font-semibold text-sm text-stone-700">{idx + 1}. {shap.feature}</span>
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ${shap.type === 'meningkatkan_risiko' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                                  {shap.type === 'meningkatkan_risiko' ? '📈 Memicu' : '📉 Meredam'}
+                                </span>
+                              </div>
+                              <div className="w-full bg-stone-200 rounded-full h-2.5 flex overflow-hidden shadow-inner">
+                                <div 
+                                  className={`h-full rounded-full transition-all duration-1000 ${shap.type === 'meningkatkan_risiko' ? 'bg-gradient-to-r from-red-400 to-red-600' : 'bg-gradient-to-r from-green-400 to-green-600'}`} 
+                                  style={{ width: `${Math.min(Math.abs(shap.impact_value) * 30, 100)}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                <div className="mt-8 text-center">
+                  <button
+                    onClick={() => {
+                      setShowInsights(false);
+                      window.scrollTo({ top: 300, behavior: "smooth" });
+                    }}
+                    className="text-stone-500 hover:text-stone-800 font-semibold underline underline-offset-4"
+                  >
+                    Tutup Laporan AI
+                  </button>
+                </div>
+              </div>
+            )}
 
             <div className="bg-rose-50 border-2 border-rose-200 p-6 sm:p-8 rounded-3xl flex flex-col sm:flex-row gap-6 items-start text-rose-900">
               <div className="w-12 h-12 bg-rose-200 rounded-2xl flex items-center justify-center flex-shrink-0 text-rose-600">

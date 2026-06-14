@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 import pandas as pd
 import numpy as np
 import mlflow
 from pathlib import Path
-# from IPython.display import display, Markdown
 
 # ==========================================
 # 1. SETUP PATH & MLFLOW
@@ -33,9 +29,9 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     # 2. DATA CLEANING & PENANGANAN OUTLIER
     # ==========================================
     print("⏳ 2. Cleaning & Penanganan Outlier Usia...")
-    # Sesuai fokus penelitian: Remaja (15-24 tahun)
+    # Sesuai fokus penelitian: Remaja (10-18 tahun)
     # Ini secara otomatis membuang outlier umur 1998 tahun
-    df = df[(df['age'] >= 15) & (df['age'] <= 24)].copy()
+    df = df[(df['age'] >= 10) & (df['age'] <= 18)].copy()
     
     # Menghapus kolom teknis yang tidak memiliki nilai psikososial
     # Kolom berakhiran E (waktu) dan I (posisi soal)
@@ -52,9 +48,12 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     # Menghapus fitur demografis yang tidak relevan untuk konteks penelitian di Indonesia
     # - engnat: English as native language, tidak relevan untuk responden Indonesia
     # - orientation: orientasi seksual, di luar cakupan penelitian psikososial remaja
-    demo_drop_cols = ["engnat", "orientation"]
+    # - married : Penelitian ini di khususkan bagi usia Remaja
+    # - race : Kategori ras global tidak merepresentasikan Indonesia
+    # - voted : Tidak ada landasan klinis untuk kesehatan mental remaja
+    demo_drop_cols = ["engnat", "orientation", "married", "race", "voted", "religion", "country"]
     df = df.drop(columns=demo_drop_cols, errors="ignore")
-    print("   ✔ Kolom VCL1-16, engnat, orientation berhasil di-drop.")
+    print("   ✔ Kolom VCL1-16, engnat, orientation, dan married berhasil di-drop.")
     
     # ==========================================
     # 3. PENANGANAN MISSING VALUE
@@ -94,14 +93,8 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     # 5. PENCEGAHAN DATA LEAKAGE & FINAL CLEANING
     # ==========================================
     # Menghapus 42 pertanyaan asli dan skor total agar model tidak "mencontek"
-    df_final = df.drop(columns=q_cols + ['score_depression', 'score_anxiety', 'score_stress', 'country'])
+    df_final = df.drop(columns=q_cols + ['score_depression', 'score_anxiety', 'score_stress'])
     
-    # Menghapus baris duplikat alami (responden berbeda dengan jawaban identik)
-    # Mencegah data overlap saat train-test split
-    # n_before_dedup = len(df_final)
-    # df_final = df_final.drop_duplicates()
-    # n_dupes = n_before_dedup - len(df_final)
-    # print(f"   \u2714 {n_dupes} baris duplikat dihapus.")
 
     # ==========================================
     # 6. SIMPAN HASIL & LOGGING
@@ -111,7 +104,7 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     df_final.to_csv(output_path, index=False)
 
     mlflow.log_metric("rows_after_cleaning", len(df_final))
-    mlflow.log_param("age_range", "15-24")
+    mlflow.log_param("age_range", "10-18")
     mlflow.log_param("encoding_status", "Already Numeric Labels")
 
     summary = f"""
@@ -120,7 +113,7 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     Data telah dibersihkan dan ditransformasi sesuai standar medis DASS-42.
 
     **Detail Perubahan:**
-    * **Data Cleaning:** Menghapus variabel teknis, VCL1-16, engnat, orientation & memfilter usia (15-24 thn).
+    * **Data Cleaning:** Menghapus variabel teknis, VCL1-16, engnat, orientation, married & memfilter usia (10-18 thn).
     * **Outlier:** Berhasil ditangani melalui pemfilteran usia.
     * **Missing Value:** Menghapus kolom 'major' dan baris kosong.
     * **Feature Engineering:** Menghasilkan 3 label target (*risk_depression, risk_anxiety, risk_stress*).
@@ -134,4 +127,3 @@ with mlflow.start_run(run_name="Data_Cleaning_and_Engineering"):
     ✅ *Dataset bersih siap dilanjutkan ke Tahap 04: Train-Test Split.*
     """
     print(summary)
-

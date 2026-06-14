@@ -29,20 +29,57 @@ stages:
       - Data/split/train_data.csv
       - src/05_multilabel_imbalance_handling.py
     outs:
-      - Data/processed/train_balanced_multilabel.csv
+      - Data/processed/train_smote.csv
 
-  mfo_feature_selection:
-    cmd: python src/06_mfo_feature_selection.py
+  hyperparameter_tuning_xgb_br:
+    cmd: python src/06_hyperparameter_tuning_xgb_br.py
     deps:
-      - Data/processed/train_balanced_multilabel.csv
-      - src/06_mfo_feature_selection.py
+      - Data/processed/train_smote.csv
+      - src/06_hyperparameter_tuning_xgb_br.py
     outs:
-      - Data/processed/train_selected_features.csv
+      - models/best_xgb_params_br.json
 
-  final_model_training:
-    cmd: python src/11_final_model.py
+  hyperparameter_tuning_xgb_cc:
+    cmd: python src/06_hyperparameter_tuning_xgb_cc.py
     deps:
-      - Data/processed/train_selected_features.csv
+      - Data/processed/train_smote.csv
+      - src/06_hyperparameter_tuning_xgb_cc.py
+    outs:
+      - models/best_xgb_params_cc.json
+
+  baseline_randomforest:
+    cmd: python src/07a_baseline_randomforest_br.py
+    deps:
+      - Data/processed/train_smote.csv
       - Data/split/test_data.csv
-      - models/best_xgb_params.json
-      - src/11_final_model.py
+      - src/07a_baseline_randomforest_br.py
+
+  baseline_svm:
+    cmd: python src/07b_baseline_svm_br.py
+    deps:
+      - Data/processed/train_smote.csv
+      - Data/split/test_data.csv
+      - src/07b_baseline_svm_br.py
+
+  xgboost_binary_relevance:
+    cmd: python src/08_baseline_xgboost_br.py
+    deps:
+      - Data/processed/train_smote.csv
+      - Data/split/test_data.csv
+      - models/best_xgb_params_br.json
+      - src/08_baseline_xgboost_br.py
+
+  xgboost_classifier_chain:
+    cmd: python src/08_xgboost_classifierchain.py
+    deps:
+      - Data/processed/train_smote.csv
+      - Data/split/test_data.csv
+      - models/best_xgb_params_cc.json
+      - src/08_xgboost_classifierchain.py
+
+  shap_explainability:
+    cmd: python src/09_shap_explainability.py
+    deps:
+      - Data/split/test_data.csv
+      - models/multilabel_xgboost_classifier_chain.pkl
+      - src/09_shap_explainability.py

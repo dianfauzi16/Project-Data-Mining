@@ -76,12 +76,11 @@ export default function Home() {
                 </div>
                 
                 {[
-                  { emoji: "😔", label: "Depresi", desc: "Keputusasaan, hilangnya minat, dan motivasi", color: "bg-indigo-50 text-indigo-700 border-indigo-100" },
-                  { emoji: "😰", label: "Kecemasan", desc: "Kekhawatiran berlebih dan respons panik", color: "bg-amber-50 text-amber-700 border-amber-100" },
-                  { emoji: "😣", label: "Stres", desc: "Kesulitan rileks, agitasi, dan reaktivitas tinggi", color: "bg-rose-50 text-rose-700 border-rose-100" },
+                  { label: "Depresi", desc: "Keputusasaan, hilangnya minat, dan motivasi", color: "bg-indigo-50 text-indigo-700 border-indigo-100" },
+                  { label: "Kecemasan", desc: "Kekhawatiran berlebih dan respons panik", color: "bg-amber-50 text-amber-700 border-amber-100" },
+                  { label: "Stres", desc: "Kesulitan rileks, agitasi, dan reaktivitas tinggi", color: "bg-rose-50 text-rose-700 border-rose-100" },
                 ].map((item) => (
                   <div key={item.label} className={`flex items-center gap-4 p-4 rounded-xl border ${item.color}`}>
-                    <span className="text-2xl flex-shrink-0">{item.emoji}</span>
                     <div>
                       <div className="font-semibold text-stone-800 text-sm">{item.label}</div>
                       <div className="text-stone-500 text-sm">{item.desc}</div>
@@ -101,7 +100,7 @@ export default function Home() {
             <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-teal-600" /> Anonim & aman</span>
             <span className="flex items-center gap-2"><HeartPulse className="w-4 h-4 text-teal-600" /> Berbasis riset psikologi</span>
             <span className="flex items-center gap-2"><Brain className="w-4 h-4 text-teal-600" /> Machine learning</span>
-            <span className="flex items-center gap-2"><Users className="w-4 h-4 text-teal-600" /> Untuk remaja 15–24 tahun</span>
+            <span className="flex items-center gap-2"><Users className="w-4 h-4 text-teal-600" /> Untuk remaja 10-18 tahun</span>
           </div>
         </div>
       </div>

@@ -6,8 +6,10 @@ import pandas as pd
 import numpy as np
 import pickle
 import json
+import yaml
 from pathlib import Path
 import warnings
+import shap
 warnings.filterwarnings('ignore')
 
 app = FastAPI(title="Sistem Penilaian Risiko Kesehatan Mental API")
@@ -32,20 +34,18 @@ except Exception as e:
     print(f"Error loading model: {e}")
     model = None
 
-# 2. Load Config (Optimal Thresholds and Selected Features)
-threshold_path = BASE_DIR / "models" / "optimal_thresholds.json"
-try:
-    with open(threshold_path, "r") as f:
-        threshold_data = json.load(f)
-        
-    config = {
-        "selected_features": threshold_data["selected_features"],
-        "target_cols": ['risk_depression', 'risk_anxiety', 'risk_stress'],
-        "optimal_thresholds": threshold_data["thresholds"],
-    }
-except Exception as e:
-    print(f"Error loading config: {e}")
-    config = None
+# 2. Load Config (Selected Features)
+# ClassifierChain training strips feature_names_in_, so we define them explicitly based on the 15 features used
+selected_features = [
+    'TIPI1', 'TIPI2', 'TIPI3', 'TIPI4', 'TIPI5', 'TIPI6', 'TIPI7', 'TIPI8', 
+    'TIPI9', 'TIPI10', 'education', 'urban', 'gender', 'age', 'familysize'
+]
+
+config = {
+    "selected_features": selected_features,
+    "target_cols": ['risk_depression', 'risk_anxiety', 'risk_stress'],
+    "optimal_thresholds": {'risk_depression': 0.5, 'risk_anxiety': 0.5, 'risk_stress': 0.5},
+}
 
 # 3. Helper functions for Prediction
 def chain_predict_proba(model, X):
@@ -64,14 +64,76 @@ def chain_predict_proba(model, X):
     return [np.column_stack([1 - all_probas[:, i], all_probas[:, i]])
             for i in range(n_targets)]
 
-def predict_with_thresholds(model, X, thresholds):
-    probas = chain_predict_proba(model, X)
-    predictions = []
-    for i, (proba, threshold) in enumerate(zip(probas, thresholds)):
-        pred = (proba[:, 1] >= threshold).astype(int)
-        predictions.append(pred)
-    return np.column_stack(predictions), probas
+def get_shap_explanations(model, input_df, target_cols):
+    X_sample_aug = input_df.values.copy()
+    
+    explanations = {}
+    base_features = list(input_df.columns)
+    
+    feature_translations = {
+    "TIPI1": "Ekstrovert / Antusias",
+    "TIPI2": "Kritis / Suka Berdebat",
+    "TIPI3": "Dapat Diandalkan / Disiplin",
+    "TIPI4": "Mudah Cemas / Mudah Terganggu",
+    "TIPI5": "Terbuka pada Pengalaman Baru",
+    "TIPI6": "Pendiam / Tertutup",
+    "TIPI7": "Simpatik / Hangat",
+    "TIPI8": "Ceroboh / Tidak Terorganisir",
+    "TIPI9": "Tenang / Stabil Emosional",
+    "TIPI10": "Konvensional / Kurang Kreatif",
 
+    "education": "Tingkat Pendidikan",
+    "urban": "Tingkat Urbanisasi",
+    "gender": "Jenis Kelamin",
+    "age": "Usia",
+    "familysize": "Jumlah Anggota Keluarga",
+
+    "pred_depression": "Risiko Depresi",
+    "pred_anxiety": "Risiko Kecemasan",
+}
+    
+    for i, target in enumerate(target_cols):
+        estimator = model.estimators_[i]
+        
+        current_feature_names = base_features.copy()
+        if i == 1:
+            current_feature_names += ['pred_depression']
+        elif i == 2:
+            current_feature_names += ['pred_depression', 'pred_anxiety']
+            
+        X_shap_df = pd.DataFrame(X_sample_aug, columns=current_feature_names)
+        
+        explainer = shap.TreeExplainer(estimator)
+        shap_values = explainer.shap_values(X_shap_df)
+        
+        sv = shap_values[0] if isinstance(shap_values, list) else shap_values
+        if len(sv.shape) > 1:
+            sv = sv[0]
+            
+        top_indices = np.argsort(np.abs(sv))[::-1][:5]
+        
+        shap_explanation = []
+        for idx in top_indices:
+            raw_feat_name = current_feature_names[idx]
+            impact_val = float(sv[idx])
+            
+            human_readable_name = feature_translations.get(raw_feat_name, raw_feat_name)
+            direction = "meningkatkan_risiko" if impact_val > 0 else "menurunkan_risiko"
+            
+            shap_explanation.append({
+                "feature": human_readable_name,
+                "impact_value": impact_val,
+                "type": direction
+            })
+            
+        key_name = target.replace("risk_", "")
+        explanations[key_name] = shap_explanation
+        
+        pred_proba = estimator.predict_proba(X_sample_aug)[:, 1]
+        pred_label = (pred_proba >= 0.5).astype(int).reshape(-1, 1)
+        X_sample_aug = np.hstack([X_sample_aug, pred_label])
+        
+    return explanations
 def get_risk_level(prob):
     if prob >= 0.7: return "high"
     elif prob >= 0.4: return "medium"
@@ -100,11 +162,11 @@ def predict_mental_health(data: Dict[str, Any]):
 
         input_df = pd.DataFrame([input_dict])[config['selected_features']]
         
-        # Get threshold values in order
-        thresholds_list = [config['optimal_thresholds'][t] for t in config['target_cols']]
+        # Predict (using custom chain_predict_proba for ClassifierChain)
+        probabilities = chain_predict_proba(model, input_df)
         
-        # Predict
-        predictions, probabilities = predict_with_thresholds(model, input_df, thresholds_list)
+        # Calculate SHAP local explanations
+        shap_explanations = get_shap_explanations(model, input_df, config['target_cols'])
         
         dep_prob = float(probabilities[0][0, 1])
         anx_prob = float(probabilities[1][0, 1])
@@ -113,15 +175,18 @@ def predict_mental_health(data: Dict[str, Any]):
         return {
             "depression": {
                 "prob": dep_prob,
-                "risk": get_risk_level(dep_prob)
+                "risk": get_risk_level(dep_prob),
+                "shap_explanation": shap_explanations["depression"]
             },
             "anxiety": {
                 "prob": anx_prob,
-                "risk": get_risk_level(anx_prob)
+                "risk": get_risk_level(anx_prob),
+                "shap_explanation": shap_explanations["anxiety"]
             },
             "stress": {
                 "prob": str_prob,
-                "risk": get_risk_level(str_prob)
+                "risk": get_risk_level(str_prob),
+                "shap_explanation": shap_explanations["stress"]
             }
         }
     except Exception as e:
