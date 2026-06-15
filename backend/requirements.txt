@@ -6,3 +6,5 @@ numpy==2.2.6
 xgboost==2.1.1
 scikit-learn==1.7.2
 iterative-stratification==0.1.9
+PyYAML
+shap
