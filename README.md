@@ -6,21 +6,6 @@ An advanced machine learning project focused on multi-label classification using
 
 ---
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Pipeline Architecture](#pipeline-architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Workflow](#workflow)
-- [Key Features](#key-features)
-- [Results & Evaluation](#results--evaluation)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## 🎯 Overview
 
 This project implements a comprehensive data mining solution that combines multiple advanced techniques for multi-label classification tasks. The pipeline includes:
